@@ -10,7 +10,9 @@ function AddServerOverlay({ setOverlay, overlayed }) {
   return (
     <div className="overlay-background">
       <div className="overlay-content">
-        <div onMouseDown={() => setOverlay(false)}>close</div>
+        <div className="pointer" onMouseDown={() => setOverlay(false)}>
+          close
+        </div>
         {overlayType == 1 ? (
           <CreateServer />
         ) : overlayType == 2 ? (

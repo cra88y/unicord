@@ -42,14 +42,36 @@ export const deleteServerById = (id) => async (dispatch) => {
   }
 };
 
-export const createServer = (name) => async (dispatch) => {
-  const server = { name: name };
+export const createServer = (server) => async (dispatch) => {
   const response = await fetch("/api/servers/new", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(server),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    await dispatch(addServer(data));
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
+
+export const createChannel = (channel) => async (dispatch) => {
+  const response = await fetch(`/api/channels/new`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(channel),
   });
 
   if (response.ok) {

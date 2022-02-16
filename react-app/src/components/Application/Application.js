@@ -6,6 +6,7 @@ import ServerCard from "./ServerCard";
 import "./app.css";
 import AddServerOverlay from "./AddServerOverlay/AddServerOverlay";
 import { loadServers } from "../../store/servers";
+import { socketConnect, socketDisconnect } from "../../store/session";
 function Application() {
   const user = useSelector((state) => state.session.user);
   const servers = useSelector((state) => state.servers.servers);
@@ -14,10 +15,13 @@ function Application() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadServers());
+    dispatch(socketConnect());
+    return () => socketDisconnect();
   }, []);
 
   useEffect(() => {
     setActiveServer(Object.values(servers)[0]);
+    console.log(Object.values(servers)[0]);
   }, [servers]);
 
   return (
@@ -30,9 +34,19 @@ function Application() {
       )}
       <div>
         <h1>Server Browser</h1>
-        {Object.keys(servers) > 0 &&
+        <span>
+          Servers{" "}
+          <span
+            className="pointer"
+            onMouseDown={() => setAddServerOverlayed(true)}
+          >
+            +
+          </span>
+        </span>
+        {Object.keys(servers) != 0 &&
           Object.values(servers).map((server) => (
             <div
+              className="pointer"
               onMouseDown={() => {
                 setActiveServer(server);
               }}
@@ -41,7 +55,6 @@ function Application() {
               <ServerCard server={server} />
             </div>
           ))}
-        <div onMouseDown={() => setAddServerOverlayed(true)}>+</div>
       </div>
 
       {activeServer && <Server server={activeServer} />}

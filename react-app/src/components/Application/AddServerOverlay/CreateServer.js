@@ -16,7 +16,7 @@ function CreateServer() {
       <h1>Create your server!</h1>
       <form className="create-server-form" onSubmit={onSubmit}>
         <div>
-          <label for="pic">Picture </label>
+          <label htmlFor="pic">Picture </label>
           <input
             name="pic"
             type="file"
@@ -25,7 +25,7 @@ function CreateServer() {
           />
         </div>
         <div>
-          <label for="name">Name </label>
+          <label htmlFor="name">Name </label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
