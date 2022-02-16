@@ -4,20 +4,36 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-
-from .models import db, User
-from .api.user_routes import user_routes
-from .api.auth_routes import auth_routes
-
+# from flask_session import Session
+from flask_socketio import SocketIO, send
 from .seeds import seed_commands
+from .models import db, User
 
 from .config import Config
 
 app = Flask(__name__)
 
+# Tell flask about our seed commands
+app.cli.add_command(seed_commands)
+
+app.config.from_object(Config)
+db.init_app(app)
+
+Migrate(app, db)
+
+# session = Session(app)
+# Application Security
+CORS(app)
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
+# Setup session
+
+# app.config['SESSION_TYPE'] = 'filesystem'
+# Session(app)
+# SocketIO
+socketio = SocketIO(app, cors_allowed_origins="*", manage_session=True)
+socketio.run(app)
 
 
 @login.user_loader
@@ -25,17 +41,12 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-# Tell flask about our seed commands
-app.cli.add_command(seed_commands)
-
-app.config.from_object(Config)
+from .api.message_routes import message_routes
+from .api.auth_routes import auth_routes
+from .api.user_routes import user_routes
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
-db.init_app(app)
-Migrate(app, db)
-
-# Application Security
-CORS(app)
+app.register_blueprint(message_routes, url_prefix='/api/')
 
 
 # Since we are deploying with Docker and Flask,
@@ -43,6 +54,8 @@ CORS(app)
 # Therefore, we need to make sure that in production any
 # request made over http is redirected to https.
 # Well.........
+
+
 @app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
