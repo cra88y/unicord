@@ -7,6 +7,7 @@ import { hashSvg } from "../utils";
 import AddChannelOverlay from "./AddChannelOverlay/AddChannelOverlay";
 import ChannelCard from "./ChannelCard";
 import FullOverlay from "./SettingsOverlays/ChannelSettingsOverlay";
+import UserBar from "./UserBar";
 
 function Server({ server }) {
   const [channels, setChannels] = useState([]);
@@ -25,26 +26,26 @@ function Server({ server }) {
   }, [channels]);
   return (
     <>
+      {addChannelOverlayed && (
+        <AddChannelOverlay
+          server={server}
+          setOverlay={setAddChannelOverlayed}
+          overlayed={addChannelOverlayed}
+        />
+      )}
       <div className="server-container">
         <div className="server-container-top">
-          {addChannelOverlayed && (
-            <AddChannelOverlay
-              server={server}
-              setOverlay={setAddChannelOverlayed}
-              overlayed={addChannelOverlayed}
-            />
-          )}
           <div>
-            <h1 className="white">{server.name}</h1>
-            <span>
-              Channels{" "}
+            <div className="white box-header">{server.name}</div>
+            <div className="text-channels-header">
+              TEXT CHANNELS
               <span
                 className="pointer"
                 onMouseDown={() => setAddChannelOverlayed(true)}
               >
                 +
               </span>
-            </span>
+            </div>
 
             {channels.length > 0 &&
               channels.map((channel) => (
@@ -53,8 +54,7 @@ function Server({ server }) {
           </div>
         </div>
         <div className="server-container-bottom">
-          <div className="username">{user.username}</div>
-          <div>settings</div>
+          <UserBar />
         </div>
       </div>
       {activeChannel ? (

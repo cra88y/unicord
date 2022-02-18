@@ -62,9 +62,9 @@ function Chat({ chat }) {
   };
   return (
     <div className="chat-container">
-      <h1 className="white">
+      <div className="white box-header">
         <span className="hash">{hashSvg()}</span> {chat.name}
-      </h1>
+      </div>
       <div>
         {messages.length > 0 &&
           messages.map((msg) => <Message message={msg} key={msg.id} />)}
