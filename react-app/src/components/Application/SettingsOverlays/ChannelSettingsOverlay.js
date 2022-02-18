@@ -40,20 +40,22 @@ function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
         <></>
       )}
       {unsavedChanges ? (
-        <div className="save-changes-popup">
-          <span className="bottom-message">
-            Careful — you have unsaved changes!
-          </span>
-          <div>
-            <button
-              onClick={() => setChannelName(channel.name)}
-              className="reset-button pointer"
-            >
-              Reset
-            </button>
-            <button onClick={onSave} className="save-button pointer">
-              Save Changes
-            </button>
+        <div className="bottom-popup-wrapper">
+          <div className="save-changes-popup">
+            <span className="bottom-message">
+              Careful — you have unsaved changes!
+            </span>
+            <div>
+              <button
+                onClick={() => setChannelName(channel.name)}
+                className="reset-button pointer"
+              >
+                Reset
+              </button>
+              <button onClick={onSave} className="save-button pointer">
+                Save Changes
+              </button>
+            </div>
           </div>
         </div>
       ) : (

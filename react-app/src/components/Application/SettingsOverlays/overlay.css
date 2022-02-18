@@ -131,9 +131,15 @@
 .option-input:focus {
   border-color: var(--text-link);
 }
+.bottom-popup-wrapper {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 9;
+}
 .save-changes-popup {
-  z-index: 10;
-  left: 50%;
   bottom: 0;
   width: 40%;
   position: absolute;

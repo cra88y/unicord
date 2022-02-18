@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveChannel } from "../../store/servers";
-import { hashSvg } from "../utils";
+import { cogSvg, hashSvg } from "../utils";
 import "./app.css";
 import ChannelSettingsOverlay from "./SettingsOverlays/ChannelSettingsOverlay";
 function ChannelCard({ channel }) {
@@ -33,17 +33,19 @@ function ChannelCard({ channel }) {
           }`}
           onMouseDown={onClick}
         >
-          <div style={{ display: "flex" }}>
-            <div className="hash">{hashSvg()}</div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="hash" style={{ paddingRight: "6px" }}>
+              {hashSvg()}
+            </div>
             <div style={{ height: "100%" }}>{channel.name}</div>
           </div>
 
           <div
-            style={{ height: "100%" }}
+            style={{ height: "12px", display: "flex", alignItems: "center" }}
             className="pointer"
             onClick={() => setEditChannelOverlay(true)}
           >
-            settings
+            {cogSvg()}
           </div>
         </div>
       </div>

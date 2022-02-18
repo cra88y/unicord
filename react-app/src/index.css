@@ -439,12 +439,6 @@ button {
   border: 0;
   cursor: pointer;
 }
-.icon,
-.text {
-  vertical-align: middle;
-  display: inline-block;
-  width: 1em;
-}
 .pointer {
   cursor: pointer;
 }

@@ -8,10 +8,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 10%;
+  width: 72px;
+  padding-top: 8px;
 }
-.server-card {
-  padding-bottom: 15px;
+.server-bubble {
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  line-height: 48px;
+  font-size: 14px;
+  color: white;
+  transition: all 0.3s;
+  background-color: #36393f;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.server-bubble:hover {
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  line-height: 48px;
+  font-size: 14px;
+  color: white;
+  transition: all 0.3s;
+  background-color: rgb(88, 101, 242);
+  border-radius: 35%;
+}
+.add-server-bubble {
+  color: #3ba55d;
+}
+.add-server-bubble:hover {
+  color: white !important;
+  background-color: #3ba55d !important;
 }
 .channel-bar {
   padding-bottom: 2px;
@@ -52,12 +81,25 @@
 .server-container-bottom {
   display: flex;
   justify-content: space-between;
+  background-color: var(--background-tertiary);
+  height: 52px;
+  font-size: 14px;
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 8px;
+  margin-bottom: 1px;
 }
 .chat-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 70%;
+  /* width: 70%; */
+  flex-grow: 1;
   background-color: var(--background-primary);
 }
 .center-text {
@@ -103,6 +145,8 @@
 }
 .hash {
   color: var(--text-muted);
+  display: flex;
+  align-items: center;
   width: 20px;
   height: 20px;
   flex: 0 0 auto;
@@ -125,10 +169,13 @@
   /* border-bottom: 1px solid black; */
   box-shadow: var(--elevation-low);
   padding: 0 16px;
+  font-size: 16px;
   height: 48px;
   z-index: 1;
   display: flex;
   align-items: center;
+  font-family: Ginto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
 }
 .text-channels-header {
   /* width: 100%; */
@@ -143,4 +190,28 @@
   cursor: default;
   padding: 16px 8px 0px 5px;
   font-family: Ginto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.user-cog > svg {
+  height: 24px;
+  width: 24px;
+}
+.user-cog:hover {
+  background-color: var(--background-modifier-hover);
+}
+.user-cog {
+  line-height: 0;
+  width: 32px;
+  height: 32px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-radius: 4px;
+  position: relative;
+  color: var(--interactive-normal);
 }

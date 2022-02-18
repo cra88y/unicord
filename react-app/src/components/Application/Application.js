@@ -36,7 +36,6 @@ function Application() {
         />
       )}
       <div className="server-browser">
-        <div>Servers </div>
         {Object.keys(servers) != 0 &&
           Object.values(servers).map((server) => (
             <div
@@ -50,7 +49,7 @@ function Application() {
             </div>
           ))}
         <div
-          className="pointer"
+          className="pointer server-bubble add-server-bubble"
           onMouseDown={() => setAddServerOverlayed(true)}
         >
           +

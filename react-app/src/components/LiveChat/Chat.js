@@ -63,7 +63,10 @@ function Chat({ chat }) {
   return (
     <div className="chat-container">
       <div className="white box-header">
-        <span className="hash">{hashSvg()}</span> {chat.name}
+        <span style={{ paddingRight: "8px", width: "24px" }} className="hash">
+          {hashSvg()}
+        </span>{" "}
+        {chat.name}
       </div>
       <div>
         {messages.length > 0 &&
