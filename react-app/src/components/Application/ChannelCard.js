@@ -7,6 +7,8 @@ import ChannelSettingsOverlay from "./SettingsOverlays/ChannelSettingsOverlay";
 function ChannelCard({ channel }) {
   const [editChannelOverlayed, setEditChannelOverlay] = useState(false);
   const activeChannel = useSelector((state) => state.servers.activeChannel);
+  const user = useSelector((state) => state.session.user);
+  const activeServer = useSelector((state) => state.servers.activeServer);
   const dispatch = useDispatch();
   const onClick = () => {
     dispatch(setActiveChannel(channel));
@@ -37,16 +39,30 @@ function ChannelCard({ channel }) {
             <div className="hash" style={{ paddingRight: "6px" }}>
               {hashSvg()}
             </div>
-            <div style={{ height: "100%" }}>{channel.name}</div>
+            <div
+              className={`${
+                activeChannel == channel ? "active-channel-name" : ""
+              }`}
+              style={{
+                height: "100%",
+                color: "rgb(142, 146, 151)",
+              }}
+            >
+              {channel.name}
+            </div>
           </div>
 
-          <div
-            style={{ height: "12px", display: "flex", alignItems: "center" }}
-            className="pointer"
-            onClick={() => setEditChannelOverlay(true)}
-          >
-            {cogSvg()}
-          </div>
+          {user.id == activeServer.owner.id ? (
+            <div
+              style={{ height: "12px", display: "flex", alignItems: "center" }}
+              className="pointer"
+              onClick={() => setEditChannelOverlay(true)}
+            >
+              {cogSvg()}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>

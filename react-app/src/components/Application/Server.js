@@ -39,12 +39,16 @@ function Server({ server }) {
             <div className="white box-header">{server.name}</div>
             <div className="text-channels-header">
               TEXT CHANNELS
-              <span
-                className="pointer"
-                onMouseDown={() => setAddChannelOverlayed(true)}
-              >
-                +
-              </span>
+              {user.id == activeServer.owner.id ? (
+                <span
+                  className="pointer"
+                  onMouseDown={() => setAddChannelOverlayed(true)}
+                >
+                  +
+                </span>
+              ) : (
+                <></>
+              )}
             </div>
 
             {channels.length > 0 &&

@@ -68,6 +68,7 @@ function Chat({ chat }) {
         </span>{" "}
         {chat.name}
       </div>
+      {/* <div style={{ display: "flex" }}> */}
       <div>
         {messages.length > 0 &&
           messages.map((msg) => <Message message={msg} key={msg.id} />)}
@@ -76,7 +77,7 @@ function Chat({ chat }) {
             display: "flex",
             justifyContent: "center",
             paddingBottom: "1rem",
-            paddingTop: "1rem",
+            // paddingTop: "1rem",
           }}
         >
           <input
@@ -96,7 +97,9 @@ function Chat({ chat }) {
             onChange={(e) => onMsgChange(e)}
             onKeyDown={onKey}
           />
+          {/* </div> */}
         </div>
+        {/* <div style={{ marginTop: "40px" }}>MEMBERS DIV</div> */}
       </div>
     </div>
   );

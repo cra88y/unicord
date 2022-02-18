@@ -68,6 +68,9 @@
   background-color: var(--background-modifier-selected) !important;
   cursor: default;
 }
+.active-channel-name {
+  color: white !important;
+}
 .server-container {
   display: flex;
   flex-direction: column;
@@ -81,7 +84,7 @@
 .server-container-bottom {
   display: flex;
   justify-content: space-between;
-  background-color: var(--background-tertiary);
+  background-color: #292b2f;
   height: 52px;
   font-size: 14px;
   font-weight: 500;
@@ -189,6 +192,7 @@
   line-height: 24px;
   cursor: default;
   padding: 16px 8px 0px 5px;
+  margin-right: 10px;
   font-family: Ginto, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .user-cog > svg {

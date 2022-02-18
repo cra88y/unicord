@@ -27,6 +27,7 @@ function Application() {
     } else dispatch(setActiveServer(servers[activeServer.id]));
   }, [servers]);
   if (Object.values(servers).length == 0) return <></>;
+  if (activeServer == null) return <></>;
   return (
     <div className="app-container">
       {addServerOverlayed && (
@@ -48,6 +49,7 @@ function Application() {
               <ServerCard server={server} />
             </div>
           ))}
+
         <div
           className="pointer server-bubble add-server-bubble"
           onMouseDown={() => setAddServerOverlayed(true)}
