@@ -33,10 +33,11 @@
   border-radius: 4px;
 }
 .channel-button:hover {
-  
+  background-color: var(--background-modifier-hover);
 }
 .active-channel {
-  background-color: var(--background-modifier-selected);
+  background-color: var(--background-modifier-selected) !important;
+  cursor: default;
 }
 .server-container {
   display: flex;
