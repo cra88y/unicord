@@ -4,13 +4,12 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-# from flask_session import Session
+import eventlet
 from flask_socketio import SocketIO, send
 from .seeds import seed_commands
 from .models import db, User
-
 from .config import Config
-
+eventlet.monkey_patch()
 app = Flask(__name__)
 
 # Tell flask about our seed commands
@@ -27,13 +26,9 @@ CORS(app)
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
-# Setup session
 
-# app.config['SESSION_TYPE'] = 'filesystem'
-# Session(app)
 # SocketIO
 socketio = SocketIO(app, cors_allowed_origins="*", manage_session=True)
-socketio.run(app)
 
 
 @login.user_loader
@@ -83,3 +78,8 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
+
+
+if __name__ == '__main__':
+    app.run()
+    socketio.run(app)

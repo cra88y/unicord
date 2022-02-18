@@ -2,6 +2,9 @@ const ADD_SERVER = "servers/ADD_SERVER";
 const SET_SERVERS = "servers/ADD_SERVERS";
 const REMOVE_SERVER = "servers/REMOVE_SERVER";
 
+const SET_ACTIVE_SERVER = "servers/SET_ACTIVE_SERVER";
+const SET_ACTIVE_CHANNEL = "servers/SET_ACTIVE_CHANNEL";
+
 const addServer = (server) => ({
   type: ADD_SERVER,
   server,
@@ -15,6 +18,21 @@ const removeServerById = (id) => ({
   id: id,
 });
 
+const storeActiveServer = (server) => ({
+  type: SET_ACTIVE_SERVER,
+  server,
+});
+const storeActiveChannel = (channel) => ({
+  type: SET_ACTIVE_CHANNEL,
+  channel,
+});
+
+export const setActiveServer = (server) => async (dispatch) => {
+  await dispatch(storeActiveServer(server));
+};
+export const setActiveChannel = (channel) => async (dispatch) => {
+  await dispatch(storeActiveChannel(channel));
+};
 export const loadServers = () => async (dispatch) => {
   const response = await fetch(`/api/servers`);
   if (response.ok) {
@@ -77,6 +95,7 @@ export const createChannel = (channel) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     await dispatch(addServer(data));
+
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -87,41 +106,76 @@ export const createChannel = (channel) => async (dispatch) => {
     return ["An error occurred. Please try again."];
   }
 };
-// export const editServer = (serverid, desc) => async (dispatch) => {
-//   const server = { description: desc };
-//   const response = await fetch(`/api/servers/${serverid}`, {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(server),
-//   });
+export const deleteChannelById = (id) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${id}`, {
+    method: "DELETE",
+  });
 
-//   if (response.ok) {
-//     const data = await response.json();
-//     await dispatch(addServer(data));
-//     return null;
-//   } else if (response.status < 500) {
-//     const data = await response.json();
-//     if (data.errors) {
-//       return data.errors;
-//     }
-//   } else {
-//     return ["An error occurred. Please try again."];
-//   }
-// };
+  if (response.ok) {
+    const data = await response.json();
+    await dispatch(addServer(data));
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
+export const editChannel = (channel) => async (dispatch) => {
+  console.log(channel.server);
+  const response = await fetch(`/api/channels/${channel.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(channel),
+  });
 
-const initialState = { servers: {} };
+  if (response.ok) {
+    const data = await response.json();
+    await dispatch(addServer(data));
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
+
+export const deleteChannelMessageById = (id) => async (dispatch) => {
+  const response = await fetch(`/api/channels/messages/${id}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    await dispatch(addServer(data));
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
+const initialState = { servers: {}, activeServer: null, activeChannel: null };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case ADD_SERVER:
       return {
+        ...state,
         servers: { ...state.servers, [action.server.id]: action.server },
       };
     case SET_SERVERS:
-      return {
-        servers: { ...action.servers },
-      };
+      return { ...state, servers: { ...action.servers } };
     case REMOVE_SERVER:
       const newServers = { ...state.servers };
       delete newServers[action.id];
@@ -129,6 +183,10 @@ export default function reducer(state = initialState, action) {
         ...state,
         servers: newServers,
       };
+    case SET_ACTIVE_SERVER:
+      return { ...state, activeServer: action.server };
+    case SET_ACTIVE_CHANNEL:
+      return { ...state, activeChannel: action.channel };
     default:
       return state;
   }

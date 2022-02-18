@@ -4,18 +4,19 @@ import { useEffect, useState } from "react";
 import Message from "./Message";
 import "../Application/app.css";
 import { useSelector } from "react-redux";
+import { hashSvg } from "../utils";
 function Chat({ chat }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const socket = useSelector((state) => state.session.socket);
-
+  const servers = useSelector((state) => state.servers.servers);
   useEffect(() => {
     if (!socket) return;
     setMessages([]);
     socket.emit("join", { chat_type: chat.chat_type, chat_id: chat.chat_id });
     const fetchMessages = async () => {
       const res = await fetch(
-        `http://localhost:5000/api/${chat.chat_type}/${chat.chat_id}/messages`
+        `/api/${chat.chat_type}/${chat.chat_id}/messages`
       );
       if (res.ok) {
         const data = await res.json();
@@ -30,7 +31,7 @@ function Chat({ chat }) {
         chat_id: chat.chat_id,
       });
     };
-  }, [chat]);
+  }, [chat, servers]);
 
   useEffect(() => {
     socket.on("message", (msg) => {
@@ -42,7 +43,8 @@ function Chat({ chat }) {
     setMessage(e.target.value);
   };
 
-  const onClick = () => {
+  const onKey = (e) => {
+    if (e.key != "Enter") return;
     if (!socket) {
       console.log("no socket");
       return;
@@ -60,15 +62,39 @@ function Chat({ chat }) {
   };
   return (
     <div className="chat-container">
-      <h1>{chat.name}</h1>
-      {messages.length > 0 &&
-        messages.map((msg) => <Message message={msg} key={msg.id} />)}
-      <input
-        name="message"
-        value={message}
-        onChange={(e) => onMsgChange(e)}
-      ></input>
-      <button onClick={onClick}>Send</button>
+      <h1 className="white">
+        <span className="hash">{hashSvg()}</span> {chat.name}
+      </h1>
+      <div>
+        {messages.length > 0 &&
+          messages.map((msg) => <Message message={msg} key={msg.id} />)}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingBottom: "1rem",
+            paddingTop: "1rem",
+          }}
+        >
+          <input
+            style={{
+              paddingLeft: ".5rem",
+              width: "100%",
+              margin: "0 1rem",
+              borderRadius: "8px",
+              border: "0",
+              height: "2rem",
+              backgroundColor: "var(--channeltextarea-background)",
+              color: "var(--text-normal",
+            }}
+            name="message"
+            placeholder={`Message #${chat.name}`}
+            value={message}
+            onChange={(e) => onMsgChange(e)}
+            onKeyDown={onKey}
+          />
+        </div>
+      </div>
     </div>
   );
 }

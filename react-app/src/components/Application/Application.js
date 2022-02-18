@@ -5,12 +5,13 @@ import Server from "./Server";
 import ServerCard from "./ServerCard";
 import "./app.css";
 import AddServerOverlay from "./AddServerOverlay/AddServerOverlay";
-import { loadServers } from "../../store/servers";
+import { loadServers, setActiveServer } from "../../store/servers";
 import { socketConnect, socketDisconnect } from "../../store/session";
 function Application() {
   const user = useSelector((state) => state.session.user);
+  const activeServer = useSelector((state) => state.servers.activeServer);
+  const activeChannel = useSelector((state) => state.servers.activeChannel);
   const servers = useSelector((state) => state.servers.servers);
-  const [activeServer, setActiveServer] = useState(null);
   const [addServerOverlayed, setAddServerOverlayed] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -20,10 +21,12 @@ function Application() {
   }, []);
 
   useEffect(() => {
-    setActiveServer(Object.values(servers)[0]);
-    console.log(Object.values(servers)[0]);
+    if (!activeServer) {
+      if (Object.values(servers).length)
+        dispatch(setActiveServer(Object.values(servers)[0]));
+    } else dispatch(setActiveServer(servers[activeServer.id]));
   }, [servers]);
-
+  if (Object.values(servers).length == 0) return <></>;
   return (
     <div className="app-container">
       {addServerOverlayed && (
@@ -32,29 +35,26 @@ function Application() {
           overlayed={addServerOverlayed}
         />
       )}
-      <div>
-        <h1>Server Browser</h1>
-        <span>
-          Servers{" "}
-          <span
-            className="pointer"
-            onMouseDown={() => setAddServerOverlayed(true)}
-          >
-            +
-          </span>
-        </span>
+      <div className="server-browser">
+        <div>Servers </div>
         {Object.keys(servers) != 0 &&
           Object.values(servers).map((server) => (
             <div
               className="pointer"
               onMouseDown={() => {
-                setActiveServer(server);
+                dispatch(setActiveServer(server));
               }}
               key={server.id}
             >
               <ServerCard server={server} />
             </div>
           ))}
+        <div
+          className="pointer"
+          onMouseDown={() => setAddServerOverlayed(true)}
+        >
+          +
+        </div>
       </div>
 
       {activeServer && <Server server={activeServer} />}

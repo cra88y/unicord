@@ -1,16 +1,46 @@
 .app-container {
   display: flex;
-  justify-content: center;
-  /* justify-content: space-between; */
+  /* justify-content: space-around; */
+  /* padding-top: 2vh; */
+  height: 100vh;
+}
+.server-browser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 10%;
+}
+.server-card {
+  padding-bottom: 15px;
+}
+.channel-bar {
+  padding-bottom: 15px;
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  flex-grow: 1;
+  width: 100%;
 }
 .server-container {
   display: flex;
-  margin-left: 50px;
+  flex-direction: column;
+  justify-content: space-between;
+  /* margin-left: 10px; */
+  background-color: var(--background-secondary);
+  width: 20%;
+  /* border-radius: 8px 0 0 0; */
   /* justify-content: space-between; */
 }
+.server-container-bottom {
+  display: flex;
+  justify-content: space-between;
+}
 .chat-container {
-  margin-left: 50px;
-  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 70%;
+  background-color: var(--background-primary);
 }
 .center-text {
   display: flex;
@@ -47,6 +77,26 @@
   flex-direction: column;
   align-items: center;
 }
-.pointer {
-  cursor: pointer;
+
+.date-txt {
+  font-size: 8px;
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+.hash {
+  color: var(--text-muted);
+}
+.username {
+  color: white;
+}
+.user-message {
+  padding-left: 0.5rem;
+}
+.message-container {
+  display: flex;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+}
+.white {
+  color: white;
 }

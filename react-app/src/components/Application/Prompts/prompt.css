@@ -1,0 +1,62 @@
+.prompt-background {
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+.prompt-container {
+  background-color: var(--background-primary);
+  border-radius: 5px;
+  z-index: 6;
+  height: 200px;
+  width: 440px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.prompt-top {
+  padding-top: 16px;
+}
+.prompt-header {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--header-primary);
+  padding: 0 16px 20px;
+  font-family: var(--font-display);
+}
+.prompt-body {
+  padding: 0 16px 20px;
+  word-wrap: break-word;
+  color: var(--header-primary);
+  flex-grow: 1;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.prompt-bottom {
+  padding: 16px;
+  border-radius: 0 0 5px 5px;
+  background-color: var(--background-secondary);
+  display: flex;
+  justify-content: flex-end;
+  height: 38px;
+}
+.delete-button {
+  color: #fff;
+  background-color: hsl(359, calc(var(--saturation-factor, 1) * 82.6%), 59.4%);
+  height: 38px;
+  min-width: 96px;
+  min-height: 38px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 2px 16px;
+  border-radius: 3px;
+}

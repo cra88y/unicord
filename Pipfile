@@ -28,9 +28,14 @@ Mako = "==1.1.4"
 Flask-SocketIO = "*"
 simple-websocket = "*"
 flask-session = "*"
+eventlet = "==0.30.2"
+dnspython = "*"
 
 [dev-packages]
 psycopg2-binary = "==2.8.6"
 
 [requires]
 python_version = "3.9"
+
+[scripts]
+startapp = "gunicorn -b :5000 --worker-class eventlet -w 1 --timeout=250 app:app"

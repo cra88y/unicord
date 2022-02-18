@@ -2,7 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { pencilSvg, trashSvg } from "../utils";
+import { Avatar } from "@material-ui/core";
 import "../Application/app.css";
+import { deleteChannelMessageById } from "../../store/servers";
 export default function Message({ message }) {
   const user = useSelector((state) => state.session.user);
   const [showDelete, setShowDelete] = useState(false);
@@ -26,7 +28,7 @@ export default function Message({ message }) {
         `Are you sure you'd like to delete your message "${message.body}"?`
       )
     ) {
-      dispatch(deleteMessageById(message.id));
+      dispatch(deleteChannelMessageById(message.id));
     }
     setShowDelete(false);
   };
@@ -50,9 +52,17 @@ export default function Message({ message }) {
     <div
       onMouseLeave={() => setShowDelete(false)}
       onMouseOver={() => setShowDelete(true)}
+      className="message-container"
     >
-      <div>
-        <strong>{message.user.username}: </strong>
+      <Avatar src={message.user.avatar_url} />
+      <div className="user-message">
+        <div>
+          <span className="username">{message.user.username}</span>
+          <span className="date-txt">
+            {" "}
+            {new Date(message.created_at).toDateString()}
+          </span>
+        </div>
         {isEditting ? (
           <>
             <form

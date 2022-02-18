@@ -126,3 +126,59 @@ def new_channel():
         return channel.server.to_dict()
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@message_routes.route("/channels/messages/<int:id>", methods=["DELETE"])
+@login_required
+def delete_channel_message(id):
+    message = Message.query.get(id)
+    if message.user_id == current_user.id:
+        channel = Channel.query.get(message.chat_id)
+        db.session.delete(message)
+        db.session.commit()
+        return channel.server.to_dict()
+    else:
+        return {'errors': "unauthorized"}, 401
+
+
+@message_routes.route("/channels/<int:id>", methods=["DELETE"])
+@login_required
+def delete_channel(id):
+    channel = Channel.query.get(id)
+    # print("@@@@@@@@@@@@@@@@@@@@", channel.server.owner_id)
+    if channel.server.owner_id == current_user.id:
+        db.session.delete(channel)
+        db.session.commit()
+        return channel.server.to_dict()
+    else:
+        return {'errors': "unauthorized"}, 401
+
+
+@message_routes.route("/channels/<int:id>", methods=["PATCH"])
+@login_required
+def edit_channel(id):
+    channel = Channel.query.get(id)
+    form = ChannelForm()
+    form["server_id"].data = channel.server_id
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        print("@@@@@@", channel.server.owner_id == current_user.id)
+        if channel.server.owner_id == current_user.id:
+            channel.name = form.data["name"]
+            db.session.commit()
+            return channel.server.to_dict()
+        else:
+            return {'errors': "unauthorized"}, 401
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@message_routes.route("/servers/<int:id>", methods=["DELETE"])
+@login_required
+def delete_server(id):
+    server = Server.query().get(id)
+    if server.owner_id == current_user.id:
+        db.session.delete(server)
+        db.session.commit()
+    else:
+        return {'errors': "unauthorized"}, 401

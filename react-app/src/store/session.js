@@ -19,9 +19,7 @@ const setSocket = (socket) => ({
 });
 
 export const socketConnect = () => async (dispatch) => {
-  dispatch(
-    setSocket(io.connect("ws://localhost:5000", { withCredentials: true }))
-  );
+  dispatch(setSocket(io.connect({ withCredentials: true })));
 };
 export const socketDisconnect = () => async (dispatch) => {
   dispatch(setSocket(null));

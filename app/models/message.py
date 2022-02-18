@@ -22,4 +22,6 @@ class Message(db.Model):
             'id': self.id,
             'user': self.user.to_dict(),
             'body': self.body,
+            'created_at': str(self.created_at),
+            'updated_at': str(self.updated_at)
         }
