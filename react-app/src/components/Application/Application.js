@@ -39,15 +39,7 @@ function Application() {
       <div className="server-browser">
         {Object.keys(servers) != 0 &&
           Object.values(servers).map((server) => (
-            <div
-              className="pointer"
-              onMouseDown={() => {
-                dispatch(setActiveServer(server));
-              }}
-              key={server.id}
-            >
-              <ServerCard server={server} />
-            </div>
+              <ServerCard key={server.id} server={server} />
           ))}
 
         <div

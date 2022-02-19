@@ -12,6 +12,7 @@
   padding-top: 8px;
 }
 .server-bubble {
+  box-sizing: border-box;
   width: 48px;
   height: 48px;
   text-align: center;
@@ -19,21 +20,43 @@
   font-size: 14px;
   color: white;
   transition: all 0.3s;
+  transition: margin-top 0.1s;
+
   background-color: #36393f;
   border-radius: 50%;
-  margin-bottom: 12px;
+  /* padding-bottom: 12px; */
   overflow: hidden;
 }
-.server-bubble:hover {
+.server-bubble-container {
   width: 48px;
   height: 48px;
-  text-align: center;
-  line-height: 48px;
-  font-size: 14px;
-  color: white;
-  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 8px;
+}
+.server-bubble:active {
+  margin-top: 2px;
+}
+.server-bubble:hover {
   background-color: rgb(88, 101, 242);
   border-radius: 35%;
+}
+.active-bubble {
+  background-color: rgb(88, 101, 242);
+  border-radius: 35%;
+}
+.active-server-indicator {
+  box-sizing: border-box;
+  position: absolute;
+  display: block;
+  width: 8px;
+  border-radius: 0 4px 4px 0;
+  margin-left: -70px;
+  background-color: var(--header-primary);
+  opacity: 1;
+  height: 40px;
+  transform: none;
 }
 .add-server-bubble {
   color: #3ba55d;

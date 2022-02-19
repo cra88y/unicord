@@ -3,7 +3,8 @@ import "./prompt.css";
 import "../SettingsOverlays/overlay.css";
 import { useDispatch } from "react-redux";
 import { deleteChannelById } from "../../../store/servers";
-function DeleteChannelPrompt({ channel, setOverlay }) {
+import { logout } from "../../../store/session";
+function LogoutPrompt({ setOverlay }) {
   const dispatch = useDispatch();
   const onClickCancel = (e) => {
     e.preventDefault();
@@ -11,25 +12,22 @@ function DeleteChannelPrompt({ channel, setOverlay }) {
   };
   const onClickDelete = (e) => {
     e.preventDefault();
-    dispatch(deleteChannelById(channel.id));
+    dispatch(logout());
     setOverlay(false);
   };
   return (
     <div className="prompt-background">
       <div className="prompt-container">
         <div className="prompt-top">
-          <div className="prompt-header">Delete Channel</div>
-          <div className="prompt-subtext">
-            Are you sure you want to delete {<strong>#{channel.name}</strong>}?
-            This cannot be undone.
-          </div>
+          <div className="prompt-header">Log Out</div>
+          <div className="prompt-subtext">Are you sure you want to logout?</div>
         </div>
         <div className="prompt-bottom">
           <button className="reset-button pointer" onClick={onClickCancel}>
             Cancel
           </button>
           <button className="delete-button pointer" onClick={onClickDelete}>
-            Delete Channel
+            Logout
           </button>
         </div>
       </div>
@@ -37,4 +35,4 @@ function DeleteChannelPrompt({ channel, setOverlay }) {
   );
 }
 
-export default DeleteChannelPrompt;
+export default LogoutPrompt;

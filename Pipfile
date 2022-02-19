@@ -30,6 +30,7 @@ simple-websocket = "*"
 flask-session = "*"
 eventlet = "==0.30.2"
 dnspython = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 psycopg2-binary = "==2.8.6"

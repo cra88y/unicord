@@ -14,7 +14,7 @@
   background-color: var(--background-primary);
   border-radius: 5px;
   z-index: 6;
-  height: 200px;
+  /* height: 200px; */
   width: 440px;
 
   display: flex;
@@ -22,13 +22,12 @@
   justify-content: space-between;
 }
 .prompt-top {
-  padding-top: 16px;
+  padding: 16px 16px;
 }
 .prompt-header {
   font-size: 20px;
   font-weight: 600;
   color: var(--header-primary);
-  padding: 0 16px 20px;
   font-family: var(--font-display);
 }
 .prompt-body {
@@ -59,4 +58,47 @@
   line-height: 16px;
   padding: 2px 16px;
   border-radius: 3px;
+  -webkit-transition: filter 0.15s ease-in-out;
+  transition: filter 0.15s ease-in-out;
+}
+.done-button {
+  color: #fff;
+  background-color: rgb(88, 101, 242);
+  height: 38px;
+  min-width: 96px;
+  min-height: 38px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 2px 16px;
+  border-radius: 3px;
+  -webkit-transition: filter 0.15s ease-in-out;
+  transition: filter 0.15s ease-in-out;
+}
+.done-button:hover,
+.delete-button:hover {
+  filter: brightness(90%);
+}
+.centered {
+  text-align: center;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+  color: var(--header-primary);
+  font-family: var(--font-primary);
+}
+.prompt-subtext {
+  color: var(--header-secondary);
+  /* margin-top: 8px; */
+  font-family: var(--font-primary);
+  font-size: 16px;
+  line-height: 20px;
+  word-wrap: break-word;
+  font-weight: normal;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.bad-input {
+  border-color: #ed4245 !important;
 }

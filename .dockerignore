@@ -1,0 +1,4 @@
+react-app/node_modules
+.venv
+.env
+.flaskenv

@@ -64,7 +64,7 @@ function Server({ server }) {
       {activeChannel ? (
         <Chat chat={activeChannel} />
       ) : (
-        <h1 className="chat-container">No active chat</h1>
+        <div className="chat-container">No active chat</div>
       )}
     </>
   );

@@ -55,10 +55,10 @@
   width: 192px;
   /* font-family: "ginto-normal", sans-serif; */
   color: var(--channels-default);
+  font-family: var(--font-display);
   font-size: 12px;
   line-height: 16px;
-  /* font-weight: 600; */
-  padding: 0px 20px 6px 10px;
+  padding: 8px 20px 8px 0;
   cursor: default;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -115,6 +115,9 @@
   line-height: 16px;
   padding: 2px 16px;
 }
+.reset-button:hover {
+  text-decoration: underline;
+}
 .option-input {
   font-size: 16px;
   -webkit-box-sizing: border-box;
@@ -127,10 +130,12 @@
   -webkit-transition: border-color 0.2s ease-in-out;
   transition: border-color 0.2s ease-in-out;
   padding: 10px;
+  margin-bottom: 16px;
 }
 .option-input:focus {
-  border-color: var(--text-link);
+  border-color: var(--text-link) !important;
 }
+
 .bottom-popup-wrapper {
   bottom: 0;
   position: absolute;
@@ -168,4 +173,5 @@
 .single-option-header {
   margin-bottom: 8px;
   font-size: 12px;
+  font-family: var(--font-display);
 }

@@ -12,7 +12,7 @@ function Chat({ chat }) {
   const servers = useSelector((state) => state.servers.servers);
   useEffect(() => {
     if (!socket) return;
-    setMessages([]);
+    // setMessages([]);
     socket.emit("join", { chat_type: chat.chat_type, chat_id: chat.chat_id });
     const fetchMessages = async () => {
       const res = await fetch(
@@ -34,10 +34,10 @@ function Chat({ chat }) {
   }, [chat, servers]);
 
   useEffect(() => {
-    socket.on("message", (msg) => {
+    socket?.on("message", (msg) => {
       setMessages([...messages, msg]);
     });
-  }, [messages.length]);
+  }, [messages]);
 
   const onMsgChange = (e) => {
     setMessage(e.target.value);

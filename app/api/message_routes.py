@@ -119,11 +119,16 @@ def new_channel():
     form = ChannelForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        channel = Channel(
-            server_id=form.data["server_id"], name=form.data["name"])
-        db.session.add(channel)
-        db.session.commit()
-        return channel.server.to_dict()
+        server_id = form.data["server_id"]
+        server = Server.query.get(server_id)
+        if(server.owner_id == current_user.id):
+            channel = Channel(
+                server_id=server_id, name=form.data["name"])
+            db.session.add(channel)
+            db.session.commit()
+            return channel.server.to_dict()
+        else:
+            return {'errors': ["unauthorized"]}, 401
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
@@ -138,7 +143,7 @@ def delete_channel_message(id):
         db.session.commit()
         return channel.server.to_dict()
     else:
-        return {'errors': "unauthorized"}, 401
+        return {'errors': ["unauthorized"]}, 401
 
 
 @message_routes.route("/channels/<int:id>", methods=["DELETE"])
@@ -151,7 +156,7 @@ def delete_channel(id):
         db.session.commit()
         return channel.server.to_dict()
     else:
-        return {'errors': "unauthorized"}, 401
+        return {'errors': ["unauthorized"]}, 401
 
 
 @message_routes.route("/channels/<int:id>", methods=["PATCH"])
@@ -168,7 +173,7 @@ def edit_channel(id):
             db.session.commit()
             return channel.server.to_dict()
         else:
-            return {'errors': "unauthorized"}, 401
+            return {'errors': ["unauthorized"]}, 401
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
