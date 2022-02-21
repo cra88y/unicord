@@ -12,7 +12,6 @@
   padding-top: 8px;
 }
 .server-bubble {
-  box-sizing: border-box;
   width: 48px;
   height: 48px;
   text-align: center;
@@ -20,7 +19,7 @@
   font-size: 14px;
   color: white;
   transition: all 0.3s;
-  transition: margin-top 0.1s;
+  /* transition: margin-top 0.1s; */
 
   background-color: #36393f;
   border-radius: 50%;
@@ -33,7 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 8px;
+  margin-bottom: 8px;
 }
 .server-bubble:active {
   margin-top: 2px;
@@ -104,6 +103,14 @@
   /* border-radius: 8px 0 0 0; */
   /* justify-content: space-between; */
 }
+.server-container-top .box-header {
+  display: flex;
+  justify-content: space-between;
+}
+.server-container-top button {
+  background: 0;
+  color: var(--text-muted);
+}
 .server-container-bottom {
   display: flex;
   justify-content: space-between;
@@ -150,8 +157,10 @@
   /* padding-top: 20vh; */
 }
 .overlay-content {
-  width: 500px;
-  height: 500px;
+  padding: 27px;
+  width: 440px;
+  height: 558px;
+  border-radius: 5px;
   background-color: white;
   display: flex;
   flex-direction: column;

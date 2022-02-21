@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createServer } from "../../../store/servers";
 
-function CreateServer() {
+function CreateServer({ setOverlay }) {
   const [picture, setPicture] = useState("");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(createServer({ name: name }));
+    setOverlay(false);
   };
   return (
     <div>

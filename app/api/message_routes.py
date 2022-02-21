@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request
 from flask_socketio import send, emit, join_room, leave_room
 from app.api.auth_routes import validation_errors_to_error_messages
 from app.forms.channel_form import ChannelForm
-
+from sqlalchemy import or_
 from app.forms.server_form import ServerForm
 from .. import socketio
 from flask_login import current_user, login_required
@@ -77,22 +77,44 @@ def onLeave(data):
 def get_channel_messages(id):
     messages = db.session.query(Message).filter(Message.chat_type ==
                                                 "channel", Message.chat_id == id).all()
-    return {"messages": [m.to_dict() for m in messages]}
+    return {"messages": [m.to_dict() for m in messages]}, 200
 
 
 @message_routes.route("/conversation/<int:id>/messages", methods=["GET"])
 def get_conversation_messages(id):
     messages = db.session.query(Message).filter(Message.chat_type ==
                                                 "conversation" and Message.chat_id == id).all()
-    return {"messages": [m.to_dict() for m in messages]}
+    return {"messages": [m.to_dict() for m in messages]}, 200
 
 
-@message_routes.route("/servers", methods=["GET"])
+@message_routes.route("/servers/joinable", methods=["GET"])
 @login_required
-def get_servers():
-    # memberships = current_user.memberships
-    servers = Server.query.all()
-    return {"servers": {s.id: s.to_dict() for s in servers}}
+def get_joinable_servers():
+    joined = current_user.get_server_ids()
+    servers = Server.query.filter(~Server.id.in_(joined)).all()
+    return {"servers": {s.id: s.to_dict() for s in servers}}, 200
+
+
+@message_routes.route("/servers/joined", methods=["GET"])
+@login_required
+def get_user_servers():
+    joined = current_user.get_server_ids()
+    servers = Server.query.filter(Server.id.in_(joined)).all()
+    return {"servers": {s.id: s.to_dict() for s in servers}}, 200
+
+
+@message_routes.route("/servers/<int:id>/leave", methods=["POST"])
+@login_required
+def leave_server(id):
+    server = Server.query.get(id)
+    membership = Membership.query.filter(
+        Membership.joinable_type == "server", Membership.joinable_id == id).first()
+    if membership is not None and server.owner_id != current_user.id:
+        db.session.delete(membership)
+        db.session.commit()
+        return server.to_dict(), 200
+    else:
+        return {'errors': ["user isn't a member of this server"]}, 404
 
 
 @message_routes.route("/servers/new", methods=["POST"])
@@ -108,7 +130,7 @@ def new_server():
                                 joinable_type="server", joinable_id=server.id)
         db.session.add(membership)
         db.session.commit()
-        return server.to_dict()
+        return server.to_dict(), 200
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
@@ -181,9 +203,42 @@ def edit_channel(id):
 @message_routes.route("/servers/<int:id>", methods=["DELETE"])
 @login_required
 def delete_server(id):
-    server = Server.query().get(id)
+    server = Server.query.get(id)
     if server.owner_id == current_user.id:
-        db.session.delete(server)
-        db.session.commit()
+        server.delete_self()
+        return "success", 200
     else:
         return {'errors': "unauthorized"}, 401
+
+
+@message_routes.route("/servers/<int:id>", methods=["PATCH"])
+@login_required
+def edit_server(id):
+    server = Server.query.get(id)
+    form = ServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        if server.owner_id == current_user.id:
+            server.name = form.data["name"]
+            db.session.commit()
+            return server.to_dict()
+        else:
+            return {'errors': ["unauthorized"]}, 401
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@message_routes.route("/servers/<int:id>/join", methods=["POST"])
+@login_required
+def join_server(id):
+    server = Server.query.get(id)
+    membershipExists = db.session.query(Membership).filter(Membership.joinable_type == "server", Membership.joinable_id ==
+                                                           server.id, Membership.user_id == current_user.id).first() is not None
+    if not membershipExists and server is not None:
+        membership = Membership(user_id=current_user.id,
+                                joinable_type="server", joinable_id=server.id)
+        db.session.add(membership)
+        db.session.commit()
+        return server.to_dict()
+    else:
+        return {'errors': ["already joined this server"]}, 401

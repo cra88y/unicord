@@ -45,7 +45,8 @@
   background-color: var(--background-secondary);
   display: flex;
   justify-content: flex-end;
-  height: 38px;
+  align-items: center;
+  height: 64px;
 }
 .delete-button {
   color: #fff;

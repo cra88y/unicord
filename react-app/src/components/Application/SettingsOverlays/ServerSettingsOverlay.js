@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { editChannel } from "../../../store/servers";
+import { editServer } from "../../../store/servers";
 import { hashSvg, xSvg } from "../../utils";
-import DeleteChannelPrompt from "../Prompts/DeleteChannelPrompt";
+import DeleteServerPrompt from "../Prompts/DeleteServerPrompt";
 import "./overlay.css";
-function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
-  const [channelName, setChannelName] = useState("|||||||||||||||||");
+function ServerSettingsOverlay({ server, setOverlay }) {
+  const [serverName, setServerName] = useState("|||||||||||||||||");
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [deleteOverlay, setDeleteOverlay] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    setChannelName(channel.name);
-  }, [channel]);
+    setServerName(server.name);
+  }, [server]);
 
   useEffect(() => {
-    if (!channel) setOverlay(false);
+    if (!server) setOverlay(false);
   }, [deleteOverlay]);
   useEffect(() => {
-    if (channel.name != channelName) {
+    if (server.name != serverName) {
       setUnsavedChanges(true);
     } else {
       setUnsavedChanges(false);
     }
-  }, [channel, channelName]);
+  }, [server, serverName]);
   const onSave = (e) => {
     e.preventDefault();
-    const newChannel = { ...channel, name: channelName };
-    dispatch(editChannel(newChannel));
+    const newServer = { ...server, name: serverName };
+    dispatch(editServer(newServer));
   };
   const onClickDelete = (e) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
   return (
     <div className="full-overlay-container">
       {deleteOverlay ? (
-        <DeleteChannelPrompt channel={channel} setOverlay={setDeleteOverlay} />
+        <DeleteServerPrompt server={server} setOverlay={setDeleteOverlay} />
       ) : (
         <></>
       )}
@@ -47,7 +47,7 @@ function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
             </span>
             <div>
               <button
-                onClick={() => setChannelName(channel.name)}
+                onClick={() => setServerName(server.name)}
                 className="reset-button pointer"
               >
                 Reset
@@ -64,28 +64,26 @@ function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
       <div className="left-container">
         <div className="settings-options">
           <div className="options-header">
-            {hashSvg()}
             {
               <div style={{ padding: "0 .5em" }}>
-                {channelName.toUpperCase()}
+                {serverName.toUpperCase()}
               </div>
             }
-            {"TEXT CHANNELS"}
           </div>
           <div className="option selected">Overview</div>
           <div className="separator" />
           <div onClick={onClickDelete} className="option danger-action">
-            Delete Channel
+            Delete Server
           </div>
         </div>
       </div>
       <div className="right-container">
         <div style={{ color: "white", marginBottom: "20px" }}>OVERVIEW</div>
-        <div className="single-option-header">CHANNEL NAME</div>
+        <div className="single-option-header">SERVER NAME</div>
         <input
           className="option-input"
-          value={channelName}
-          onChange={(e) => setChannelName(e.target.value)}
+          value={serverName}
+          onChange={(e) => setServerName(e.target.value)}
         />
       </div>
       <div className="close-button" onClick={() => setOverlay(false)}>
@@ -95,4 +93,4 @@ function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
   );
 }
 
-export default ChannelSettingsOverlay;
+export default ServerSettingsOverlay;

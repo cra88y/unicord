@@ -19,5 +19,6 @@ class Membership(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'chat_id': self.chat_id
+            'chat_id': self.chat_id,
+            'user': self.user.to_dict()
         }

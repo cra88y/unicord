@@ -41,6 +41,10 @@
   cursor: pointer;
   transition: background 0.1s ease;
 }
+/* .danger-action:hover {
+  color: white;
+  background-color: #ed4245 !important;
+} */
 .option {
   padding: 6px 10px;
   margin-bottom: 2px;

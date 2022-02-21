@@ -33,20 +33,57 @@ export const setActiveServer = (server) => async (dispatch) => {
 export const setActiveChannel = (channel) => async (dispatch) => {
   await dispatch(storeActiveChannel(channel));
 };
-export const loadServers = () => async (dispatch) => {
-  const response = await fetch(`/api/servers`);
+export const loadUserServers = () => async (dispatch) => {
+  const response = await fetch(`/api/servers/joined`);
   if (response.ok) {
     const data = await response.json();
-    //return false if returned servers == 0
     if (Object.keys(data.servers) == 0) return false;
     await dispatch(setServers(data.servers));
-
     return true;
   } else {
-    console.log("problem loading server");
+    console.log("problem loading servers");
   }
 };
+export const loadJoinableServers = () => async (dispatch) => {
+  const response = await fetch(`/api/servers/joinable`);
+  if (response.ok) {
+    const data = await response.json();
+    if (Object.keys(data.servers) == 0) return false;
+    return data.servers;
+  } else {
+    console.log("problem loading servers");
+  }
+};
+export const joinServerById = (id) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${id}/join`, {
+    method: "POST",
+  });
 
+  if (response.ok) {
+    const data = await response.json();
+    await dispatch(addServer(data));
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
+export const leaveServerById = (id) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${id}/leave`, {
+    method: "POST",
+  });
+  if (response.ok) {
+    await dispatch(removeServerById(id));
+    await dispatch(setActiveServer(null));
+    return null;
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
 export const deleteServerById = (id) => async (dispatch) => {
   const response = await fetch(`/api/servers/${id}`, {
     method: "DELETE",
@@ -54,7 +91,29 @@ export const deleteServerById = (id) => async (dispatch) => {
 
   if (response.ok) {
     await dispatch(removeServerById(id));
+    await dispatch(setActiveServer(null));
     return null;
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
+export const editServer = (server) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${server.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(server),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    await dispatch(addServer(data));
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
   } else {
     return ["An error occurred. Please try again."];
   }
@@ -125,7 +184,6 @@ export const deleteChannelById = (id) => async (dispatch) => {
   }
 };
 export const editChannel = (channel) => async (dispatch) => {
-  console.log(channel.server);
   const response = await fetch(`/api/channels/${channel.id}`, {
     method: "PATCH",
     headers: {

@@ -442,3 +442,6 @@ button {
 .pointer {
   cursor: pointer;
 }
+* {
+  box-sizing: border-box;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 
 import Message from "./Message";
@@ -10,17 +10,22 @@ function Chat({ chat }) {
   const [message, setMessage] = useState("");
   const socket = useSelector((state) => state.session.socket);
   const servers = useSelector((state) => state.servers.servers);
+  const activeServer = useSelector((state) => state.servers.activeServer);
+  const isMounted = useRef(false);
   useEffect(() => {
-    if (!socket) return;
+    isMounted.current = true;
+    return () => (isMounted.current = false);
+  }, []);
+  useEffect(() => {
+    if (!socket || !activeServer) return;
     // setMessages([]);
     socket.emit("join", { chat_type: chat.chat_type, chat_id: chat.chat_id });
     const fetchMessages = async () => {
       const res = await fetch(
         `/api/${chat.chat_type}/${chat.chat_id}/messages`
       );
-      if (res.ok) {
+      if (res.ok && isMounted.current) {
         const data = await res.json();
-        console.log(data);
         setMessages([...data.messages]);
       }
     };

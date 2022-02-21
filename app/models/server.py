@@ -1,3 +1,4 @@
+from app.models.membership import Membership
 from .db import db
 from sqlalchemy import DateTime
 from sqlalchemy.sql import func
@@ -15,10 +16,26 @@ class Server(db.Model):
     updated_at = db.Column(DateTime(timezone=True),
                            onupdate=func.now(), server_default=func.now())
 
+    def delete_self(self):
+        for c in self.channels:
+            db.session.delete(c)
+        db.session.commit()
+        db.session.query(Membership).filter(Membership.joinable_id ==
+                                            self.id, Membership.joinable_type == "server").delete()
+        db.session.delete(self)
+        db.session.commit()
+        return None
+
+    def get_members(self):
+        memberships = db.session.query(Membership).filter(Membership.joinable_id ==
+                                                          self.id, Membership.joinable_type == "server").all()
+        return {"users": [m.user.to_dict() for m in memberships]}
+
     def to_dict(self):
         return {
             'id': self.id,
             'owner': self.owner.to_dict(),
             'name': self.name,
-            'channels': [c.to_dict() for c in self.channels]
+            'channels': [c.to_dict() for c in self.channels],
+            'members': self.get_members()
         }

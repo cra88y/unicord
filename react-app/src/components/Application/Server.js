@@ -6,7 +6,9 @@ import Chat from "../LiveChat/Chat";
 import { hashSvg } from "../utils";
 import AddChannelOverlay from "./AddChannelOverlay/AddChannelOverlay";
 import ChannelCard from "./ChannelCard";
+import ServerDropdown from "./DropdownMenus/ServerDropdown";
 import FullOverlay from "./SettingsOverlays/ChannelSettingsOverlay";
+import ServerSettingsOverlay from "./SettingsOverlays/ServerSettingsOverlay";
 import UserBar from "./UserBar";
 
 function Server({ server }) {
@@ -15,11 +17,19 @@ function Server({ server }) {
   const activeChannel = useSelector((state) => state.servers.activeChannel);
   const servers = useSelector((state) => state.servers.servers);
   const [addChannelOverlayed, setAddChannelOverlayed] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
+  const [settingsOverlay, setSettingsOverlay] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   useEffect(() => {
     setChannels(server.channels);
+    setDropdown(false);
+    setSettingsOverlay(false);
   }, [server]);
+  useEffect(() => {
+    // setDropdown(false);
+    // setSettingsOverlay(false);
+  }, [servers]);
   useEffect(() => {
     if (channels.length && !activeChannel)
       dispatch(setActiveChannel(server.channels[0]));
@@ -33,10 +43,32 @@ function Server({ server }) {
           overlayed={addChannelOverlayed}
         />
       )}
+      {settingsOverlay && (
+        <ServerSettingsOverlay
+          server={server}
+          setOverlay={setSettingsOverlay}
+        />
+      )}
+      {dropdown && (
+        <ServerDropdown
+          server={server}
+          setSettingsOverlay={setSettingsOverlay}
+          setDropdown={setDropdown}
+        />
+      )}
       <div className="server-container">
         <div className="server-container-top">
           <div>
-            <div className="white box-header">{server.name}</div>
+            <div className="white box-header">
+              {server.name}
+
+              <button
+                onClick={() => setDropdown((prev) => !prev)}
+                onBlur={() => setDropdown(false)}
+              >
+                \/
+              </button>
+            </div>
             <div className="text-channels-header">
               TEXT CHANNELS
               {user.id == activeServer.owner.id ? (
