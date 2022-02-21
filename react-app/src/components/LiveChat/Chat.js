@@ -12,23 +12,25 @@ function Chat({ chat }) {
   const servers = useSelector((state) => state.servers.servers);
   const activeServer = useSelector((state) => state.servers.activeServer);
   const isMounted = useRef(false);
+
   useEffect(() => {
     isMounted.current = true;
     return () => (isMounted.current = false);
   }, []);
+  const fetchMessages = async () => {
+    const res = await fetch(`/api/${chat.chat_type}/${chat.chat_id}/messages`);
+    if (res.ok && isMounted.current) {
+      const data = await res.json();
+      setMessages([...data.messages]);
+    }
+  };
+  const reloadMessages = () => {
+    fetchMessages();
+  };
   useEffect(() => {
     if (!socket || !activeServer) return;
     // setMessages([]);
     socket.emit("join", { chat_type: chat.chat_type, chat_id: chat.chat_id });
-    const fetchMessages = async () => {
-      const res = await fetch(
-        `/api/${chat.chat_type}/${chat.chat_id}/messages`
-      );
-      if (res.ok && isMounted.current) {
-        const data = await res.json();
-        setMessages([...data.messages]);
-      }
-    };
     fetchMessages();
     return () => {
       socket.emit("leave", {
@@ -68,7 +70,7 @@ function Chat({ chat }) {
   return (
     <div className="chat-container">
       <div className="white box-header">
-        <span style={{ paddingRight: "8px", width: "24px" }} className="hash">
+        <span style={{ paddingRight: "8px" }} className="hash">
           {hashSvg()}
         </span>{" "}
         {chat.name}
@@ -76,7 +78,13 @@ function Chat({ chat }) {
       {/* <div style={{ display: "flex" }}> */}
       <div>
         {messages.length > 0 &&
-          messages.map((msg) => <Message message={msg} key={msg.id} />)}
+          messages.map((msg) => (
+            <Message
+              reloadMessages={reloadMessages}
+              message={msg}
+              key={msg.id}
+            />
+          ))}
         <div
           style={{
             display: "flex",

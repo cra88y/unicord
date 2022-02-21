@@ -54,7 +54,7 @@ function ChannelCard({ channel }) {
 
           {user.id == activeServer.owner.id ? (
             <div
-              style={{ height: "12px", display: "flex", alignItems: "center" }}
+              style={{ display: "flex", alignItems: "center" }}
               className="pointer"
               onClick={() => setEditChannelOverlay(true)}
             >

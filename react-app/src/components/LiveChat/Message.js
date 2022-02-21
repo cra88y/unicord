@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { pencilSvg, trashSvg } from "../utils";
 import { Avatar } from "@material-ui/core";
 import "../Application/app.css";
-import { deleteChannelMessageById } from "../../store/servers";
-export default function Message({ message }) {
+import {
+  deleteChannelMessageById,
+  updateChannelMessageById,
+} from "../../store/servers";
+export default function Message({ message, reloadMessages }) {
   const user = useSelector((state) => state.session.user);
   const [showDelete, setShowDelete] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -13,14 +16,6 @@ export default function Message({ message }) {
   const [editMessageContent, setEditMessageContent] = useState("");
 
   const dispatch = useDispatch();
-
-  const deleteMessageById = () => {
-    return;
-  };
-
-  const updateMessageById = () => {
-    return;
-  };
 
   const handleDelete = () => {
     if (
@@ -32,15 +27,20 @@ export default function Message({ message }) {
     }
     setShowDelete(false);
   };
+  useEffect(() => {
+    console.log("aye");
+  }, [message]);
   const handleEdit = async (e) => {
     e.preventDefault();
+    if (!editMessageContent.length) setErrors(["no message content"]);
     const data = await dispatch(
-      updateMessageById(message.id, editMessageContent)
+      updateChannelMessageById(message.id, editMessageContent)
     );
-    if (data) {
-      setErrors(data);
+    if (data.errors?.length > 0) {
+      setErrors([data.errors]);
     } else {
       setIsEditting(false);
+      reloadMessages();
     }
     setShowDelete(false);
   };
@@ -65,9 +65,7 @@ export default function Message({ message }) {
         </div>
         {isEditting ? (
           <>
-            <form
-              onSubmit={!editMessageContent.length ? undefined : handleEdit}
-            >
+            <form onSubmit={handleEdit}>
               {errors.length > 0 && (
                 <div>
                   {errors.map((error, ind) => (

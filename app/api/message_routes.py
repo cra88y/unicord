@@ -6,6 +6,7 @@ from flask_socketio import send, emit, join_room, leave_room
 from app.api.auth_routes import validation_errors_to_error_messages
 from app.forms.channel_form import ChannelForm
 from sqlalchemy import or_
+from app.forms.edit_message_form import EditMessageForm
 from app.forms.server_form import ServerForm
 from .. import socketio
 from flask_login import current_user, login_required
@@ -194,6 +195,24 @@ def edit_channel(id):
             channel.name = form.data["name"]
             db.session.commit()
             return channel.server.to_dict()
+        else:
+            return {'errors': ["unauthorized"]}, 401
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@message_routes.route("/channels/messages", methods=["PATCH"])
+@login_required
+def edit_message():
+
+    form = EditMessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        message = Message.query.get(form.data["id"])
+        if message.user.id == current_user.id:
+            message.body = form.data["body"]
+            db.session.commit()
+            return message.to_dict()
         else:
             return {'errors': ["unauthorized"]}, 401
     else:

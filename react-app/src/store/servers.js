@@ -224,6 +224,27 @@ export const deleteChannelMessageById = (id) => async (dispatch) => {
     return ["An error occurred. Please try again."];
   }
 };
+
+export const updateChannelMessageById = (id, body) => async (dispatch) => {
+  const response = await fetch(`/api/channels/messages`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id, body }),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return await data;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
 const initialState = { servers: {}, activeServer: null, activeChannel: null };
 export default function reducer(state = initialState, action) {
   switch (action.type) {

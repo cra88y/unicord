@@ -99,8 +99,12 @@
   margin-right: 20px;
 }
 .save-button {
-  background-color: hsl(139, calc(var(--saturation-factor, 1) * 47.3%), 43.9%);
-  color: white;
+  background-color: hsl(
+    139,
+    calc(var(--saturation-factor, 1) * 47.3%),
+    43.9%
+  ) !important;
+  color: white !important;
   margin-left: 10px;
   height: 32px;
   min-width: 60px;
@@ -112,7 +116,7 @@
   padding: 2px 16px;
 }
 .reset-button {
-  color: white;
+  color: white !important;
   background-color: transparent;
   font-size: 14px;
   font-weight: 500;
