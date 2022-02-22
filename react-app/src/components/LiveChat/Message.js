@@ -27,9 +27,6 @@ export default function Message({ message, reloadMessages }) {
     }
     setShowDelete(false);
   };
-  useEffect(() => {
-    console.log("aye");
-  }, [message]);
   const handleEdit = async (e) => {
     e.preventDefault();
     if (!editMessageContent.length) setErrors(["no message content"]);

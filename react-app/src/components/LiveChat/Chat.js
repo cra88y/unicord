@@ -112,7 +112,7 @@ function Chat({ chat }) {
           />
           {/* </div> */}
         </div>
-        {/* <div style={{ marginTop: "40px" }}>MEMBERS DIV</div> */}
+        {/* <div style={{ marGintop: "40px" }}>MEMBERS DIV</div> */}
       </div>
     </div>
   );

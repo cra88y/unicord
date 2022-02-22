@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { login } from "../../../store/session";
+import { NavLink, Redirect } from "react-router-dom";
+import { demoLogin, login } from "../../../store/session";
 import "./prompt.css";
 import "../SettingsOverlays/overlay.css";
-const LoginPrompt = () => {
+const LoginPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,13 +28,19 @@ const LoginPrompt = () => {
   };
 
   if (user) {
-    return <Redirect to="/" />;
+    return <Redirect to="/app" />;
   }
 
   return (
     <>
-      <div className="prompt-background">
-        <div className="prompt-container">
+      <div
+        className="prompt-background"
+        onMouseDown={() => setLoginPrompt(false)}
+      >
+        <div
+          className="prompt-container"
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           <div className="prompt-top">
             <div className="prompt-header centered">Welcome back!</div>
             <div className="prompt-subtext  centered">
@@ -42,11 +48,6 @@ const LoginPrompt = () => {
             </div>
             <div className="prompt-options">
               <form onSubmit={onLogin}>
-                <div>
-                  {errors.map((error, ind) => (
-                    <div key={ind}>{error}</div>
-                  ))}
-                </div>
                 <div>
                   <div className="option-header">EMAIL</div>
                   <input
@@ -57,6 +58,7 @@ const LoginPrompt = () => {
                     type="text"
                     value={email}
                     onChange={updateEmail}
+                    required={true}
                   />
                 </div>
                 <div>
@@ -68,6 +70,7 @@ const LoginPrompt = () => {
                     name="password"
                     value={password}
                     onChange={updatePassword}
+                    required={true}
                   />
                   <button
                     style={{ width: "100%" }}
@@ -78,8 +81,24 @@ const LoginPrompt = () => {
                   </button>
                 </div>
               </form>
-              <div>Just here to look around? Demo</div>
-              <div>Need an account? Register</div>
+              <div className="prompt-option-subtext">
+                Just here to look around?{" "}
+                <span
+                  className="blue-link"
+                  onClick={() => dispatch(demoLogin())}
+                >
+                  Demo
+                </span>
+              </div>
+              <div className="prompt-option-subtext">
+                Need an account?{" "}
+                <span
+                  onClick={() => setRegisterPrompt(true)}
+                  className="blue-link"
+                >
+                  Register
+                </span>
+              </div>
             </div>
           </div>
         </div>

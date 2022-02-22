@@ -88,7 +88,24 @@ export const login = (email, password) => async (dispatch) => {
     return ["An error occurred. Please try again."];
   }
 };
+export const demoLogin = () => async (dispatch) => {
+  const response = await fetch("/api/auth/demo", {
+    method: "POST",
+  });
 
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setUser(data));
+    return null;
+  } else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ["An error occurred. Please try again."];
+  }
+};
 export const logout = () => async (dispatch) => {
   const response = await fetch("/api/auth/logout", {
     headers: {

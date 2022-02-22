@@ -220,13 +220,14 @@
   font-family: "Whitney Book", sans-serif;
   font-family: "Whitney Light", sans-serif;
   --font-primary: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-display: Ginto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Antique Olive", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   --font-code: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console",
     "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
     "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier,
     monospace;
-  --font-headline: Ginto Nord, Ginto, "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
+  --font-headline: "Antique Olive" Nord, "Antique Olive", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -444,4 +445,15 @@ button {
 }
 * {
   box-sizing: border-box;
+}
+.blue-link {
+  color: var(--text-link);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+.blue-link:hover {
+  text-decoration: underline;
 }

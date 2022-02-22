@@ -57,7 +57,7 @@
 }
 .options-header {
   width: 192px;
-  /* font-family: "ginto-normal", sans-serif; */
+  /* font-family: "Ginto-normal", sans-serif; */
   color: var(--channels-default);
   font-family: var(--font-display);
   font-size: 12px;

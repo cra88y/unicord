@@ -9,6 +9,9 @@ import User from "./components/User";
 import { authenticate } from "./store/session";
 import Application from "./components/Application/Application";
 import LoginPrompt from "./components/Application/Prompts/LoginPrompt";
+import RegisterPrompt from "./components/Application/Prompts/RegisterPrompt";
+import Splash from "./components/Splash/Splash";
+import { splashSvg } from "./components/utils";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -26,29 +29,38 @@ function App() {
     return null;
   }
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "var(--background-tertiary)",
-      }}
-    >
-      <BrowserRouter>
-        <Switch>
-          <Route path="/login" exact={true}>
-            <NavBar />
-            <LoginPrompt />
-          </Route>
-          <Route path="/sign-up" exact={true}>
-            <NavBar />
-            <SignUpForm />
-          </Route>
-          <ProtectedRoute path="/" exact={true}>
-            <Application />
-          </ProtectedRoute>
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <>
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "var(--background-tertiary)",
+        }}
+      >
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" exact={true}>
+              <NavBar />
+              <div
+                style={{
+                  height: "120vh",
+                  width: "100vw",
+                  position: "absolute",
+                  zIndex: "0",
+                  objectFit: "fill",
+                }}
+              >
+                {splashSvg()}
+              </div>
+              <Splash />
+            </Route>
+            <ProtectedRoute path="/app" exact={true}>
+              <Application />
+            </ProtectedRoute>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </>
   );
 }
 

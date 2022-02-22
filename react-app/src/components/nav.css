@@ -1,0 +1,19 @@
+.nav-bar-container {
+  height: 80px;
+  width: 100%;
+  background-color: #5865f2;
+}
+.nav-bar-container ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0px 40px;
+}
+.nav-bar-container ul div {
+  color: white;
+}
+.logo {
+  font-family: "Antique Olive", Helvetica;
+  font-weight: 600;
+}

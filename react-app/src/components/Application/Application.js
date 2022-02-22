@@ -11,16 +11,20 @@ import {
   setActiveServer,
 } from "../../store/servers";
 import { socketConnect, socketDisconnect } from "../../store/session";
+import { splashSvg } from "../utils";
 function Application() {
   const user = useSelector((state) => state.session.user);
   const activeServer = useSelector((state) => state.servers.activeServer);
   const activeChannel = useSelector((state) => state.servers.activeChannel);
+  const socket = useSelector((state) => state.session.socket);
   const servers = useSelector((state) => state.servers.servers);
   const [addServerOverlayed, setAddServerOverlayed] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadUserServers());
-    dispatch(socketConnect());
+    if (user) {
+      dispatch(loadUserServers());
+      dispatch(socketConnect());
+    }
     return () => socketDisconnect();
   }, []);
 
@@ -30,7 +34,27 @@ function Application() {
         dispatch(setActiveServer(Object.values(servers)[0]));
     } else dispatch(setActiveServer(servers[activeServer.id]));
   }, [servers, activeServer]);
-  // if (Object.values(servers).length == 0) return <></>;
+  if (Object.values(servers).length == 0)
+    return (
+      <>
+        <div
+          style={{
+            height: "100vh",
+            width: "100vw",
+            position: "absolute",
+            zIndex: "0",
+            objectFit: "fill",
+            background: "#5865f2",
+          }}
+        >
+          {splashSvg()}
+        </div>
+        <AddServerOverlay
+          setOverlay={setAddServerOverlayed}
+          overlayed={addServerOverlayed}
+        />
+      </>
+    );
   // if (activeServer == null) return <></>;
   return (
     <div className="app-container">

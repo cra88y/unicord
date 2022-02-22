@@ -22,7 +22,7 @@
   justify-content: space-between;
 }
 .prompt-top {
-  padding: 16px 16px;
+  padding: 32px 32px;
 }
 .prompt-header {
   font-size: 20px;
@@ -90,7 +90,7 @@
   line-height: 30px;
   font-weight: 700;
   color: var(--header-primary);
-  font-family: var(--font-primary);
+  font-family: Ginto, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .prompt-subtext {
   color: var(--header-secondary);
@@ -106,4 +106,11 @@
 }
 .bad-input {
   border-color: #ed4245 !important;
+}
+.prompt-option-subtext {
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--header-secondary);
+  margin-top: 8px;
+  font-weight: 500;
 }
