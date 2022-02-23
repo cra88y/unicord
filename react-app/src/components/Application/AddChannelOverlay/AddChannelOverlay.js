@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createChannel } from "../../../store/servers";
+import { xDDSvg } from "../../utils";
 import "../app.css";
 function AddChannelOverlay({ server, setOverlay, overlayed }) {
   const [overlayType, setOverlayType] = useState(0);
@@ -15,8 +16,13 @@ function AddChannelOverlay({ server, setOverlay, overlayed }) {
   return (
     <div className="overlay-background">
       <div className="overlay-content">
-        <div onMouseDown={() => setOverlay(false)}>close</div>
-        <h2>Create a new channel</h2>
+        <div
+          className="pointer overlay-close"
+          onMouseDown={() => setOverlay(false)}
+        >
+          {xDDSvg()}
+        </div>
+        <div className="overlay-header">Create a new channel</div>
         <form onSubmit={onSubmit}>
           <label htmlFor="name">Name</label>
           <input

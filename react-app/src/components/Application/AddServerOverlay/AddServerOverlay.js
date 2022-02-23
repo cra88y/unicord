@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { xDDSvg, xSvg } from "../../utils";
 import CreateServer from "./CreateServer";
 import DefaultOverlay from "./DefaultOverlay";
 
@@ -13,8 +14,11 @@ function AddServerOverlay({ setOverlay, overlayed }) {
   return (
     <div className="overlay-background">
       <div className="overlay-content">
-        <div className="pointer" onMouseDown={() => setOverlay(false)}>
-          close
+        <div
+          className="pointer overlay-close"
+          onMouseDown={() => setOverlay(false)}
+        >
+          {xDDSvg()}
         </div>
         {overlayType == 1 ? (
           <CreateServer setOverlay={setOverlay} />

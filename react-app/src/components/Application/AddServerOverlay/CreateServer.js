@@ -14,7 +14,7 @@ function CreateServer({ setOverlay }) {
   };
   return (
     <div>
-      <h1>Create your server!</h1>
+      <div className="overlay-header">Create your server!</div>
       <form className="create-server-form" onSubmit={onSubmit}>
         <div>
           <label htmlFor="pic">Picture </label>

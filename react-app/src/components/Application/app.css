@@ -81,6 +81,9 @@
   /* width: 100%; */
   /* padding: 0 8px; */
 }
+.channel-button > .hash {
+  padding-left: 6px;
+}
 .channel-button {
   font-size: 16px;
   line-height: 30px;
@@ -167,6 +170,7 @@
 }
 .overlay-content {
   padding: 27px;
+  position: relative;
   width: 440px;
   height: 558px;
   border-radius: 5px;
@@ -175,6 +179,9 @@
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
+}
+.overlay-content > .prompt-subtext {
+  color: rgb(79, 86, 96);
 }
 .create-server-form {
   display: flex;
@@ -268,4 +275,10 @@
   border-radius: 4px;
   position: relative;
   color: var(--interactive-normal);
+}
+.overlay-close {
+  color: var(--interactive-normal);
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
