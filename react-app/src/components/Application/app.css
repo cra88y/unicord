@@ -14,17 +14,25 @@
 .server-bubble {
   width: 48px;
   height: 48px;
-  text-align: center;
   line-height: 48px;
   font-size: 14px;
   color: white;
   transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /* transition: margin-top 0.1s; */
 
   background-color: #36393f;
   border-radius: 50%;
   /* padding-bottom: 12px; */
   overflow: hidden;
+}
+.channel-plus {
+  /* width: 16px; */
+}
+.channel-plus svg {
+  width: 16px;
 }
 .server-bubble-container {
   width: 48px;
@@ -76,6 +84,7 @@
 .channel-button {
   font-size: 16px;
   line-height: 30px;
+  height: 34px;
   margin: 2px 8px 2px 8px;
   padding: 0px 8px 0px 10px;
   display: flex;
@@ -182,8 +191,17 @@
   color: var(--text-muted);
   display: flex;
   align-items: center;
-  /* width: 20px;
-  height: 20px; */
+  flex: 0 0 auto;
+}
+.hash > svg {
+  height: 20px;
+}
+.small-hash {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
 }
 .username {
@@ -203,7 +221,7 @@
 .box-header {
   /* border-bottom: 1px solid black; */
   box-shadow: var(--elevation-low);
-  padding: 0 16px;
+  padding: 0 4px 0 16px;
   font-size: 16px;
   height: 48px;
   z-index: 1;
@@ -223,7 +241,7 @@
   color: #8e9297;
   line-height: 24px;
   cursor: default;
-  padding: 16px 8px 0px 5px;
+  padding: 16px 4px 0px 16px;
   margin-right: 10px;
   font-family: Ginto, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

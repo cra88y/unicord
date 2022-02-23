@@ -78,7 +78,17 @@ function ServerSettingsOverlay({ server, setOverlay }) {
         </div>
       </div>
       <div className="right-container">
-        <div style={{ color: "white", marginBottom: "20px" }}>OVERVIEW</div>
+        <div
+          style={{
+            color: "white",
+            marginBottom: "20px",
+            fontSize: "16px",
+            fontFamily: "var(--font-display)",
+            fontWeight: "600",
+          }}
+        >
+          OVERVIEW
+        </div>
         <div className="single-option-header">SERVER NAME</div>
         <input
           className="option-input"

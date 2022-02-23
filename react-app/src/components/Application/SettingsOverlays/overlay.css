@@ -51,6 +51,7 @@
   line-height: 20px;
   font-weight: 500;
   border-radius: 4px;
+  font-size: 16px;
 }
 .option:hover {
   background-color: var(--background-modifier-hover);

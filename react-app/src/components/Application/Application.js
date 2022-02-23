@@ -11,7 +11,7 @@ import {
   setActiveServer,
 } from "../../store/servers";
 import { socketConnect, socketDisconnect } from "../../store/session";
-import { splashSvg } from "../utils";
+import { plusSvg, splashSvg } from "../utils";
 function Application() {
   const user = useSelector((state) => state.session.user);
   const activeServer = useSelector((state) => state.servers.activeServer);
@@ -69,12 +69,11 @@ function Application() {
           Object.values(servers).map((server) => (
             <ServerCard key={server.id} server={server} />
           ))}
-
         <div
           className="pointer server-bubble add-server-bubble"
           onMouseDown={() => setAddServerOverlayed(true)}
         >
-          +
+          {plusSvg()}
         </div>
       </div>
 

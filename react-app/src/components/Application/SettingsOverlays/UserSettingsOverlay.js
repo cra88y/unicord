@@ -60,7 +60,7 @@ function UserSettingsOverlay({ setOverlay }) {
           style={{
             color: "white",
             marginBottom: "20px",
-            fontSize: "20px",
+            fontSize: "24px",
             fontFamily: "var(--font-display)",
             fontWeight: "600",
           }}

@@ -1,7 +1,9 @@
 .nav-bar-container {
   height: 80px;
   width: 100%;
-  background-color: #5865f2;
+  background-color: transparent;
+  position: absolute;
+  z-index: 2;
 }
 .nav-bar-container ul {
   display: flex;

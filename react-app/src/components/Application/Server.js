@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveChannel } from "../../store/servers";
 import Chat from "../LiveChat/Chat";
-import { hashSvg } from "../utils";
+import { downArrSvg, hashSvg, plusSvg, xDDSvg, xSvg } from "../utils";
 import AddChannelOverlay from "./AddChannelOverlay/AddChannelOverlay";
 import ChannelCard from "./ChannelCard";
 import ServerDropdown from "./DropdownMenus/ServerDropdown";
@@ -66,7 +66,7 @@ function Server({ server }) {
                 onClick={() => setDropdown((prev) => !prev)}
                 onBlur={() => setDropdown(false)}
               >
-                \/
+                {dropdown ? xDDSvg() : downArrSvg()}
               </button>
             </div>
             <div className="text-channels-header">
@@ -76,7 +76,7 @@ function Server({ server }) {
                   className="pointer"
                   onMouseDown={() => setAddChannelOverlayed(true)}
                 >
-                  +
+                  <div className="channel-plus">{plusSvg()}</div>
                 </span>
               ) : (
                 <></>

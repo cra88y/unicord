@@ -43,7 +43,40 @@ export const hashSvg = () => (
     ></path>
   </svg>
 );
-
+export const plusSvg = () => (
+  <svg aria-hidden="false" width="24" height="24" viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M20 11.1111H12.8889V4H11.1111V11.1111H4V12.8889H11.1111V20H12.8889V12.8889H20V11.1111Z"
+    ></path>
+  </svg>
+);
+export const downArrSvg = () => (
+  <svg
+    class="arrow-3MeJHj transition-30IQBn directionRight-2cNgoe"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M7 10L12 15 17 10"
+      aria-hidden="true"
+    ></path>
+  </svg>
+);
+export const xDDSvg = () => (
+  <svg aria-hidden="false" width="24" height="24" viewBox="0 0 24 24">
+    <path
+      fill="currentColor"
+      d="M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z"
+    ></path>
+  </svg>
+);
 export const xSvg = () => (
   <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24">
     <path

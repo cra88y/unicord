@@ -64,13 +64,17 @@ function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
       <div className="left-container">
         <div className="settings-options">
           <div className="options-header">
-            {hashSvg()}
+            <div
+              className="small-hash"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {hashSvg()}
+            </div>
             {
               <div style={{ padding: "0 .5em" }}>
                 {channelName.toUpperCase()}
               </div>
             }
-            {"TEXT CHANNELS"}
           </div>
           <div className="option selected">Overview</div>
           <div className="separator" />
@@ -80,7 +84,17 @@ function ChannelSettingsOverlay({ channel, setOverlay, overlayed }) {
         </div>
       </div>
       <div className="right-container">
-        <div style={{ color: "white", marginBottom: "20px" }}>OVERVIEW</div>
+        <div
+          style={{
+            color: "white",
+            marginBottom: "20px",
+            fontSize: "16px",
+            fontFamily: "var(--font-display)",
+            fontWeight: "600",
+          }}
+        >
+          OVERVIEW
+        </div>
         <div className="single-option-header">CHANNEL NAME</div>
         <input
           className="option-input"
