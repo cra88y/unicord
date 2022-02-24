@@ -99,6 +99,27 @@
   margin-top: 60px;
   margin-right: 20px;
 }
+.upload-btn {
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  width: 128px;
+  height: 36px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 2px 16px;
+  transition: all 0.1s ease-in-out;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upload-btn:hover {
+  color: black;
+  background-color: white;
+}
 .save-button {
   background-color: hsl(
     139,
@@ -127,6 +148,17 @@
 .reset-button:hover {
   text-decoration: underline;
 }
+.back-button {
+  color: black !important;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+.reset-button:hover,
+.back-button:hover {
+  text-decoration: underline;
+}
 .option-input {
   font-size: 16px;
   -webkit-box-sizing: border-box;
@@ -141,7 +173,22 @@
   padding: 10px;
   margin-bottom: 16px;
 }
-.option-input:focus {
+.option-input-light {
+  font-size: 16px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 3px;
+  color: rgb(79, 86, 96);
+  background-color: rgba(79, 84, 92, 0.02);
+  border: 1px solid var(--deprecated-text-input-border);
+  -webkit-transition: border-color 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out;
+  padding: 10px;
+  margin-bottom: 16px;
+}
+.option-input:focus,
+.option-input-light:focus {
   border-color: var(--text-link) !important;
 }
 

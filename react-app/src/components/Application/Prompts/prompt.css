@@ -11,6 +11,7 @@
   z-index: 5;
 }
 .prompt-container {
+  position: relative;
   background-color: var(--background-primary);
   border-radius: 5px;
   z-index: 6;
@@ -83,6 +84,10 @@
 .done-button:hover,
 .delete-button:hover {
   filter: brightness(90%);
+}
+.disabled {
+  filter: brightness(80%) !important;
+  cursor: not-allowed;
 }
 .centered {
   text-align: center;

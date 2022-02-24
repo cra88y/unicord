@@ -97,13 +97,13 @@ export const deleteServerById = (id) => async (dispatch) => {
     return ["An error occurred. Please try again."];
   }
 };
-export const editServer = (server) => async (dispatch) => {
-  const response = await fetch(`/api/servers/${server.id}`, {
+export const editServer = (id, url, name) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(server),
+    body: JSON.stringify({ url, name }),
   });
   if (response.ok) {
     const data = await response.json();
@@ -119,13 +119,13 @@ export const editServer = (server) => async (dispatch) => {
   }
 };
 
-export const createServer = (server) => async (dispatch) => {
+export const createServer = (name, url) => async (dispatch) => {
   const response = await fetch("/api/servers/new", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(server),
+    body: JSON.stringify({ name, url }),
   });
 
   if (response.ok) {

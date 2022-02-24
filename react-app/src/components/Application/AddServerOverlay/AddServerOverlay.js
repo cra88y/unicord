@@ -13,24 +13,24 @@ function AddServerOverlay({ setOverlay, overlayed }) {
 
   return (
     <div className="overlay-background">
-      <div className="overlay-content">
+      {overlayType == 1 ? (
         <div
-          className="pointer overlay-close"
-          onMouseDown={() => setOverlay(false)}
+          className="overlay-content"
+          style={{ height: "300px", position: "relative" }}
         >
-          {xDDSvg()}
+          <CreateServer
+            setOverlay={setOverlay}
+            setOverlayType={setOverlayType}
+          />
         </div>
-        {overlayType == 1 ? (
-          <CreateServer setOverlay={setOverlay} />
-        ) : overlayType == 2 ? (
-          <div>Find Server</div>
-        ) : (
+      ) : (
+        <div className="overlay-content">
           <DefaultOverlay
             setOverlay={setOverlay}
             setOverlayType={setOverlayType}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

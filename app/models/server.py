@@ -10,7 +10,8 @@ class Server(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     owner = db.relationship("User", back_populates="servers")
-    name = db.Column(db.String(64), nullable=False)
+    name = db.Column(db.String(20), nullable=False)
+    imgUrl = db.Column(db.String(300))
     channels = db.relationship("Channel", back_populates="server")
     created_at = db.Column(DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(DateTime(timezone=True),
@@ -37,5 +38,6 @@ class Server(db.Model):
             'owner': self.owner.to_dict(),
             'name': self.name,
             'channels': [c.to_dict() for c in self.channels],
-            'members': self.get_members()
+            'members': self.get_members(),
+            'imgUrl': self.imgUrl
         }

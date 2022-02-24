@@ -29,9 +29,11 @@
   overflow: hidden;
 }
 .channel-plus {
-  /* width: 16px; */
+  display: flex;
+  align-items: center;
 }
 .channel-plus svg {
+  color: var(--interactive-normal);
   width: 16px;
 }
 .server-bubble-container {

@@ -26,7 +26,19 @@ function ServerCard({ server }) {
             server == activeServer ? "active-bubble" : ""
           }`}
         >
-          {acronym}
+          {server.imgUrl ? (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundImage: `url(${server.imgUrl})`,
+              }}
+            ></div>
+          ) : (
+            acronym
+          )}
         </div>
       </div>
     </>

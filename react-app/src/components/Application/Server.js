@@ -24,7 +24,7 @@ function Server({ server }) {
   useEffect(() => {
     setChannels(server.channels);
     setDropdown(false);
-    setSettingsOverlay(false);
+    // setSettingsOverlay(false);
   }, [server]);
   useEffect(() => {
     // setDropdown(false);

@@ -5,4 +5,6 @@ from wtforms.validators import DataRequired
 
 class ServerForm(FlaskForm):
     name = StringField(
-        'username', validators=[DataRequired()])
+        'name', validators=[DataRequired()])
+    url = StringField(
+        'url')

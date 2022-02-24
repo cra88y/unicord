@@ -39,12 +39,11 @@
   text-rendering: optimizeLegibility;
   color: var(--interactive-normal);
 }
-.dd-item:last-of-type {
+.dd-item-red {
   color: #ed4245;
 }
-.dd-item:last-of-type:hover {
-  background-color: #ed4245;
-  color: white;
+.dd-item-red:hover {
+  background-color: #ed4245 !important;
 }
 .dd-item:hover {
   background-color: rgb(88, 101, 242);

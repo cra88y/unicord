@@ -3,6 +3,7 @@ import "./AddServerOverlay.css";
 import "../Prompts/prompt.css";
 import { useDispatch, useSelector } from "react-redux";
 import { joinServerById, loadJoinableServers } from "../../../store/servers";
+import { xDDSvg } from "../../utils";
 function DefaultOverlay({ setOverlayType, setOverlay }) {
   // const servers = useSelector((state) => state.servers.servers);
   const [joinableServers, setJoinableServers] = useState([]);
@@ -22,6 +23,12 @@ function DefaultOverlay({ setOverlayType, setOverlay }) {
   }, []);
   return (
     <>
+      <div
+        className="pointer overlay-close"
+        onMouseDown={() => setOverlay(false)}
+      >
+        {xDDSvg()}
+      </div>
       <div>
         <div className="overlay-header">Create or Join a Server</div>
       </div>

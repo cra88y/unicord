@@ -8,7 +8,7 @@ class Channel(db.Model):
     server_id = db.Column(
         db.Integer, db.ForeignKey("servers.id"), nullable=False)
     server = db.relationship("Server", back_populates="channels")
-    name = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(20), nullable=False)
 
     def to_dict(self):
         return {

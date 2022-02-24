@@ -124,9 +124,13 @@ def new_server():
     form = ServerForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        server = Server(owner_id=current_user.id, name=form.data["name"])
+        server = Server(owner_id=current_user.id,
+                        name=form.data["name"], imgUrl=form.data["url"])
         db.session.add(server)
         db.session.commit()
+        channel = Channel(
+            server_id=server.id, name="general")
+        db.session.add(channel)
         membership = Membership(user_id=current_user.id,
                                 joinable_type="server", joinable_id=server.id)
         db.session.add(membership)
@@ -190,7 +194,6 @@ def edit_channel(id):
     form["server_id"].data = channel.server_id
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        print("@@@@@@", channel.server.owner_id == current_user.id)
         if channel.server.owner_id == current_user.id:
             channel.name = form.data["name"]
             db.session.commit()
@@ -239,6 +242,7 @@ def edit_server(id):
     if form.validate_on_submit():
         if server.owner_id == current_user.id:
             server.name = form.data["name"]
+            server.imgUrl = form.data["url"]
             db.session.commit()
             return server.to_dict()
         else:
