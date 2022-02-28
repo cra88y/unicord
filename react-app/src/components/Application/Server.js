@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveChannel } from "../../store/servers";
+import { loadUserServers, setActiveChannel } from "../../store/servers";
 import Chat from "../LiveChat/Chat";
 import { downArrSvg, hashSvg, plusSvg, xDDSvg, xSvg } from "../utils";
 import AddChannelOverlay from "./AddChannelOverlay/AddChannelOverlay";
@@ -24,15 +24,24 @@ function Server({ server }) {
   useEffect(() => {
     setChannels(server.channels);
     setDropdown(false);
+    setSettingsOverlay(false);
+
     // setSettingsOverlay(false);
   }, [server]);
+  // useEffect(() => {
+
+  // }, []);
   useEffect(() => {
-    // setDropdown(false);
-    // setSettingsOverlay(false);
-  }, [servers]);
-  useEffect(() => {
-    if (channels.length && !activeChannel)
-      dispatch(setActiveChannel(server.channels[0]));
+    if (channels.length) {
+      if (activeChannel) {
+        dispatch(
+          setActiveChannel(
+            server.channels.find((v, idx) => v.id == activeChannel.id) ||
+              server.channels[0]
+          )
+        );
+      } else dispatch(setActiveChannel(server.channels[0]));
+    } else dispatch(setActiveChannel(null));
   }, [channels]);
   return (
     <>

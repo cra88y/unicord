@@ -19,7 +19,7 @@
   text-transform: uppercase;
   text-rendering: geometricPrecision;
   color: white;
-  z-index: 2;
+  z-index: 0;
   padding-top: 15vw;
 }
 .splash-subheader {

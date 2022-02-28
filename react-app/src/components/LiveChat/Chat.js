@@ -8,20 +8,28 @@ import { hashSvg } from "../utils";
 function Chat({ chat }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
   const servers = useSelector((state) => state.servers.servers);
   const activeServer = useSelector((state) => state.servers.activeServer);
   const isMounted = useRef(false);
-
+  const messagesRef = useRef();
   useEffect(() => {
     isMounted.current = true;
     return () => (isMounted.current = false);
   }, []);
+  useEffect(() => {
+    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  }, [messages]);
   const fetchMessages = async () => {
+    console.log("fetching");
     const res = await fetch(`/api/${chat.chat_type}/${chat.chat_id}/messages`);
     if (res.ok && isMounted.current) {
       const data = await res.json();
-      setMessages([...data.messages]);
+      const msgs = data.messages.sort(
+        (a, b) => new Date(a.created_at) - new Date(b.created_at)
+      );
+      setMessages(msgs);
     }
   };
   const reloadMessages = () => {
@@ -38,25 +46,34 @@ function Chat({ chat }) {
         chat_id: chat.chat_id,
       });
     };
-  }, [chat, servers]);
+  }, [chat]);
 
   useEffect(() => {
-    socket?.on("message", (msg) => {
-      setMessages([...messages, msg]);
+    socket?.on("message", (msgs) => {
+      if (isMounted.current) setMessages(msgs);
     });
-  }, [messages]);
+    socket?.on("refresh_messages", (msgs) => {
+      if (isMounted.current) setMessages(msgs);
+    });
+  }, []);
 
   const onMsgChange = (e) => {
     setMessage(e.target.value);
   };
 
   const onKey = (e) => {
-    if (e.key != "Enter") return;
-    if (!socket) {
-      console.log("no socket");
+    if (e.key == "Enter") {
+      e.preventDefault();
+    }
+    e.target.style.height = "auto";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+    if (e.key != "Enter") {
       return;
     }
-    if (message.length) {
+    if (!socket) {
+      return;
+    }
+    if (message.length && message.length < 255) {
       socket.emit("message", {
         message: message,
         chat_type: chat.chat_type,
@@ -64,7 +81,7 @@ function Chat({ chat }) {
       });
       setMessage("");
     } else {
-      alert("Can't send empty message.");
+      alert("Message invalid");
     }
   };
   return (
@@ -76,43 +93,49 @@ function Chat({ chat }) {
         {chat.name}
       </div>
       {/* <div style={{ display: "flex" }}> */}
-      <div>
+      <div className="all-messages-container" ref={messagesRef}>
         {messages.length > 0 &&
           messages.map((msg) => (
             <Message
+              chat={chat}
               reloadMessages={reloadMessages}
               message={msg}
               key={msg.id}
             />
           ))}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingBottom: "1rem",
-            // paddingTop: "1rem",
-          }}
-        >
-          <input
-            style={{
-              paddingLeft: ".5rem",
-              width: "100%",
-              margin: "0 1rem",
-              borderRadius: "8px",
-              border: "0",
-              height: "2rem",
-              backgroundColor: "var(--channeltextarea-background)",
-              color: "var(--text-normal",
-            }}
-            name="message"
-            placeholder={`Message #${chat.name}`}
-            value={message}
-            onChange={(e) => onMsgChange(e)}
-            onKeyDown={onKey}
-          />
-          {/* </div> */}
-        </div>
+
         {/* <div style={{ marGintop: "40px" }}>MEMBERS DIV</div> */}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingBottom: "1rem",
+          // paddingTop: "1rem",
+        }}
+      >
+        <textarea
+          style={{
+            resize: "none",
+            paddingTop: "10px",
+            paddingLeft: ".5rem",
+            width: "100%",
+            margin: "16px 1rem 0 1rem",
+            borderRadius: "8px",
+            border: "0",
+            height: "2rem",
+            backgroundColor: "var(--channeltextarea-background)",
+            color: "var(--text-normal",
+          }}
+          onBlur={(e) => (e.target.style.height = "2rem")}
+          maxLength={255}
+          name="message"
+          placeholder={`Message #${chat.name}`}
+          value={message}
+          onChange={(e) => onMsgChange(e)}
+          onKeyDown={onKey}
+        />
+        {/* </div> */}
       </div>
     </div>
   );

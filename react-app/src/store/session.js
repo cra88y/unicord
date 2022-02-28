@@ -39,15 +39,14 @@ export const authenticate = () => async (dispatch) => {
     dispatch(setUser(data));
   }
 };
-export const updateUser = (username, password) => async (dispatch) => {
-  const response = await fetch("/api/users/me/update", {
+export const updateUserAvatar = (url) => async (dispatch) => {
+  const response = await fetch("/api/users/me/avatar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      username,
-      password,
+      url: url,
     }),
   });
   if (response.ok) {
@@ -56,6 +55,7 @@ export const updateUser = (username, password) => async (dispatch) => {
     return [];
   } else if (response.status < 500) {
     const data = await response.json();
+    console.log(data.errors);
     if (data.errors) {
       return data.errors;
     }
@@ -63,6 +63,32 @@ export const updateUser = (username, password) => async (dispatch) => {
     return ["An error occurred. Please try again."];
   }
 };
+export const updateUser =
+  (username, password, url = null) =>
+  async (dispatch) => {
+    const response = await fetch("/api/users/me/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+      return [];
+    } else if (response.status < 500) {
+      const data = await response.json();
+      if (data.errors) {
+        return data.errors;
+      }
+    } else {
+      return ["An error occurred. Please try again."];
+    }
+  };
 export const login = (email, password) => async (dispatch) => {
   const response = await fetch("/api/auth/login", {
     method: "POST",
@@ -118,43 +144,45 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-export const signUp = (username, email, password) => async (dispatch) => {
-  const response = await fetch("/api/auth/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username,
-      email,
-      password,
-    }),
-  });
+export const signUp =
+  (username, email, password, repeatPassword) => async (dispatch) => {
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        repeatPassword,
+      }),
+    });
 
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-    return null;
-  } else if (response.status < 500) {
-    const data = await response.json();
-    if (data.errors) {
-      return data.errors;
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+      return null;
+    } else if (response.status < 500) {
+      const data = await response.json();
+      if (data.errors) {
+        return data.errors;
+      }
+    } else {
+      return ["An error occurred. Please try again."];
     }
-  } else {
-    return ["An error occurred. Please try again."];
-  }
-};
+  };
 const initialState = { user: null, socket: null };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return { user: action.payload };
+      return { ...state, user: action.payload };
     case SET_SOCKET:
       if (action.socket == null && state.socket) state.socket.close();
       return { ...state, socket: action.socket };
     case REMOVE_USER:
-      return { user: null };
+      return { ...state, user: null };
     default:
       return state;
   }

@@ -16,7 +16,7 @@ function UserBar() {
       )}
       <div style={{ display: "flex", alignItems: "center" }}>
         <div style={{ paddingRight: "8px" }}>
-          <Avatar style={{ width: "32px", height: "32px" }} />
+          <Avatar src={user.imgUrl} style={{ width: "32px", height: "32px" }} />
         </div>
 
         <div className="username">{user.username}</div>

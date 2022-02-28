@@ -56,7 +56,11 @@ function ChannelCard({ channel }) {
             <div
               style={{ display: "flex", alignItems: "center" }}
               className="pointer"
-              onClick={() => setEditChannelOverlay(true)}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setEditChannelOverlay(true);
+              }}
             >
               {cogSvg()}
             </div>

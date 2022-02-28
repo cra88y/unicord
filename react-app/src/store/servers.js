@@ -33,16 +33,30 @@ export const setActiveServer = (server) => async (dispatch) => {
 export const setActiveChannel = (channel) => async (dispatch) => {
   await dispatch(storeActiveChannel(channel));
 };
+
+let isFetching = false;
 export const loadUserServers = () => async (dispatch) => {
-  const response = await fetch(`/api/servers/joined`);
-  if (response.ok) {
-    const data = await response.json();
-    if (Object.keys(data.servers) == 0) return false;
-    await dispatch(setServers(data.servers));
-    return true;
-  } else {
-    console.log("problem loading servers");
+  console.log(isFetching);
+  if (!isFetching) {
+    isFetching = true;
+    const response = await fetch(`/api/servers/joined`);
+    if (response.ok) {
+      const data = await response.json();
+      if (Object.keys(data.servers) == 0) {
+        isFetching = false;
+        return false;
+      }
+      await dispatch(setServers(data.servers));
+      isFetching = false;
+      return data.servers;
+    } else {
+      isFetching = false;
+      return false;
+    }
   }
+};
+export const purgeServers = () => async (dispatch) => {
+  await dispatch(setServers({}));
 };
 export const loadJoinableServers = () => async (dispatch) => {
   const response = await fetch(`/api/servers/joinable`);
@@ -51,7 +65,7 @@ export const loadJoinableServers = () => async (dispatch) => {
     if (Object.keys(data.servers) == 0) return false;
     return data.servers;
   } else {
-    console.log("problem loading servers");
+    return false;
   }
 };
 export const joinServerById = (id) => async (dispatch) => {
@@ -62,6 +76,7 @@ export const joinServerById = (id) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     await dispatch(addServer(data));
+    await dispatch(storeActiveServer(data));
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -78,7 +93,7 @@ export const leaveServerById = (id) => async (dispatch) => {
   });
   if (response.ok) {
     await dispatch(removeServerById(id));
-    await dispatch(setActiveServer(null));
+    await dispatch(storeActiveServer(null));
     return null;
   } else {
     return ["An error occurred. Please try again."];
@@ -108,7 +123,8 @@ export const editServer = (id, url, name) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     await dispatch(addServer(data));
-    return null;
+    await dispatch(storeActiveServer(data));
+    return data;
   } else if (response.status < 500) {
     const data = await response.json();
     if (data.errors) {
@@ -131,6 +147,7 @@ export const createServer = (name, url) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     await dispatch(addServer(data));
+    await dispatch(storeActiveServer(data));
     return null;
   } else if (response.status < 500) {
     const data = await response.json();
@@ -154,7 +171,7 @@ export const createChannel = (channel) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     await dispatch(addServer(data));
-
+    await dispatch(storeActiveServer(data));
     return null;
   } else if (response.status < 500) {
     const data = await response.json();

@@ -50,7 +50,7 @@ function ServerSettingsOverlay({ server, setOverlay }) {
         const prog = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        setProgress(prog);
+        // setProgress(prog);
       },
       (err) => console.log(err),
       () => {
@@ -118,7 +118,12 @@ function ServerSettingsOverlay({ server, setOverlay }) {
             </span>
             <div>
               <button
-                onClick={() => setServerName(server.name)}
+                onClick={() => {
+                  setServerName(server.name);
+                  setPreview(server.imgUrl);
+                  setImageFile("");
+                  setLocalUrl(false);
+                }}
                 className="reset-button pointer"
               >
                 Reset
@@ -197,13 +202,14 @@ function ServerSettingsOverlay({ server, setOverlay }) {
                 </div>
               </>
             )}
-            <label htmlFor="upload" className="upload-btn">
+            <label htmlFor="upload" className="upload-btn pointer">
               Upload Image
             </label>
             <input
               hidden={true}
               id={"upload"}
               type="file"
+              accept=".gif,.jpg,.jpeg,.png"
               value={imageFile}
               onChange={imagePreview}
             ></input>

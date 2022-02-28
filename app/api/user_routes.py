@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 from app.api.auth_routes import validation_errors_to_error_messages
 from app.forms.change_user_form import ChangeUserForm
+from app.forms.user_avatar_form import ChangeUserAvatarForm
 from app.models import User
 from app.models import db, User, Message, Channel, Server, Membership
 
@@ -35,5 +36,19 @@ def update_user():
             return current_user.to_dict()
         else:
             return {'errors': ["bad password"]}, 401
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@user_routes.route('/me/avatar', methods=["POST"])
+@login_required
+def update_avatar():
+    form = ChangeUserAvatarForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        print("@@@@@@@@@@@", form.data)
+        current_user.imgUrl = form.data['url']
+        db.session.commit()
+        return current_user.to_dict()
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401

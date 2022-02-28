@@ -1,6 +1,5 @@
-/* TODO Add site wide styles */
-
 :root {
+  color-scheme: dark;
   --header-primary: #fff;
   --header-secondary: #b9bbbe;
   --text-normal: #dcddde;
@@ -283,8 +282,6 @@ strong,
 textarea {
   outline: 0;
 }
-
-@import url("http://fonts.cdnfonts.com/css/whitney-2");
 a,
 abbr,
 acronym,
@@ -454,5 +451,11 @@ button {
   line-height: 16px;
 }
 .blue-link:hover {
+  text-decoration: underline;
+}
+
+.splash-link:hover {
+  z-index: 10;
+  cursor: pointer;
   text-decoration: underline;
 }

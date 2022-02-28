@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import "./prompt.css";
 import "../SettingsOverlays/overlay.css";
-import { signUp } from "../../../store/session";
+import { demoLogin, signUp } from "../../../store/session";
 const RegisterPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState("");
@@ -15,11 +15,11 @@ const RegisterPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
 
   const onSignUp = async (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
-      const data = await dispatch(signUp(username, email, password));
-      if (data) {
-        setErrors(data);
-      }
+    const data = await dispatch(
+      signUp(username, email, password, repeatPassword)
+    );
+    if (data) {
+      setErrors(data);
     }
   };
 
@@ -86,6 +86,7 @@ const RegisterPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
                     errors.length != 0 ? "bad-input" : ""
                   }`}
                   name="email"
+                  type="email"
                   value={email}
                   onChange={updateEmail}
                   required={true}
@@ -128,7 +129,16 @@ const RegisterPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
                   }}
                 >
                   Already have an account?
-                </span>
+                </span>{" "}
+                <div className="prompt-option-subtext">
+                  Just here to look around?{" "}
+                  <span
+                    className="blue-link"
+                    onClick={() => dispatch(demoLogin())}
+                  >
+                    Demo
+                  </span>
+                </div>
               </div>
             </div>
           </div>

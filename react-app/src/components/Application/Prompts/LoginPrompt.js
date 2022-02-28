@@ -69,6 +69,7 @@ const LoginPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
                     }`}
                     name="password"
                     value={password}
+                    type="password"
                     onChange={updatePassword}
                     required={true}
                   />
@@ -80,16 +81,7 @@ const LoginPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
                     Login
                   </button>
                 </div>
-              </form>
-              <div className="prompt-option-subtext">
-                Just here to look around?{" "}
-                <span
-                  className="blue-link"
-                  onClick={() => dispatch(demoLogin())}
-                >
-                  Demo
-                </span>
-              </div>
+              </form>{" "}
               <div className="prompt-option-subtext">
                 Need an account?{" "}
                 <span
@@ -97,6 +89,15 @@ const LoginPrompt = ({ setRegisterPrompt, setLoginPrompt }) => {
                   className="blue-link"
                 >
                   Register
+                </span>
+              </div>
+              <div className="prompt-option-subtext">
+                Just here to look around?{" "}
+                <span
+                  className="blue-link"
+                  onClick={() => dispatch(demoLogin())}
+                >
+                  Demo
                 </span>
               </div>
             </div>

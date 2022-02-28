@@ -28,16 +28,10 @@ message_routes = Blueprint('messages', __name__)
 
 
 @socketio.on("message")
-def onMessage(data):
+def on_message(data):
     if not current_user.is_authenticated:
         return None
     user = current_user
-# server = Server(owner_id=user.id, name="test server")
-# db.session.add(server)
-# db.session.commit()
-# channel = Channel(server_id=server.id, name="my test channel")
-# db.session.add(channel)
-# db.session.commit()
     msg = {
         "user_id": user.id,
         "body": data['message'],
@@ -48,18 +42,29 @@ def onMessage(data):
     message = Message(**msg)
     db.session.add(message)
     db.session.commit()
-    emit("message", message.to_dict(), room=room)
+    messages = db.session.query(Message).filter(Message.chat_type ==
+                                                "channel", Message.chat_id == data['chat_id']).order_by(Message.created_at).all()
+    emit("message", [m.to_dict() for m in messages], room=room)
+    return None
+
+
+@socketio.on("message_changed")
+def on_message_change(data):
+    if not current_user.is_authenticated:
+        return None
+    room = f"{data['chat_type']}{data['chat_id']}"
+    messages = db.session.query(Message).filter(Message.chat_type ==
+                                                "channel", Message.chat_id == data['chat_id']).order_by(Message.created_at).all()
+    emit("refresh_messages", [m.to_dict() for m in messages], room=room)
     return None
 
 
 @socketio.on("join")
-def onJoin(data):
-    # print("@@@@@@@@@@@@@", data['chat_type'])
+def on_join(data):
     if not current_user.is_authenticated:
         return None
     user = current_user
     room = f"{data['chat_type']}{data['chat_id']}"
-    print("JOINING ROOM", room)
     join_room(room)
     return None
 

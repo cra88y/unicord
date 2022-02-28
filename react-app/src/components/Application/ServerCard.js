@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveServer } from "../../store/servers";
+import { loadUserServers, setActiveServer } from "../../store/servers";
 import "./app.css";
 function ServerCard({ server }) {
   const activeServer = useSelector((state) => state.servers.activeServer);
@@ -13,6 +13,7 @@ function ServerCard({ server }) {
       <div
         className="pointer server-bubble-container"
         onMouseDown={() => {
+          dispatch(loadUserServers());
           dispatch(setActiveServer(server));
         }}
       >

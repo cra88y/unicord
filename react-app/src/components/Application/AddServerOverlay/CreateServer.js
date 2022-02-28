@@ -9,6 +9,7 @@ import "../SettingsOverlays/overlay.css";
 import { storage } from "../../../firebase";
 function CreateServer({ setOverlay, setOverlayType }) {
   const user = useSelector((state) => state.session.user);
+  const servers = useSelector((state) => state.servers.servers);
   const [errors, setErrors] = useState([]);
   const [imageFile, setImageFile] = useState("");
   const [name, setName] = useState(`${user.username}'s server`);
@@ -61,6 +62,7 @@ function CreateServer({ setOverlay, setOverlayType }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (name.length < 1 || name.length > 20) return;
     if (localImage) uploadImg(localImage);
     else
       dispatch(createServer(name, null)).then((res) => {
@@ -84,12 +86,14 @@ function CreateServer({ setOverlay, setOverlayType }) {
   };
   return (
     <div style={{ width: "100%" }}>
-      <div
-        className="pointer overlay-close"
-        onMouseDown={() => setOverlay(false)}
-      >
-        {xDDSvg()}
-      </div>
+      {Object.keys(servers).length > 0 ? (
+        <div
+          className="pointer overlay-close"
+          onMouseDown={() => setOverlay(false)}
+        >
+          {xDDSvg()}
+        </div>
+      ) : null}
       <div className="overlay-header">Create your server!</div>
       <div className="prompt-top-create-server" style={{ paddingTop: "24px" }}>
         {preview ? (
@@ -131,6 +135,7 @@ function CreateServer({ setOverlay, setOverlayType }) {
           style={{ display: "none" }}
           id="pic"
           type="file"
+          accept=".gif,.jpg,.jpeg,.png"
           value={imageFile}
           onChange={imagePreview}
         />
@@ -139,6 +144,7 @@ function CreateServer({ setOverlay, setOverlayType }) {
           SERVER NAME
         </div>
         <input
+          maxLength={20}
           spellCheck={false}
           className="option-input-light"
           style={{ width: "100%" }}

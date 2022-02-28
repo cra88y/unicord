@@ -7,7 +7,8 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(40), nullable=False, unique=True)
+    imgUrl = db.Column(db.String(300))
+    username = db.Column(db.String(16), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     memberships = db.relationship("Membership", back_populates="user")
@@ -36,5 +37,6 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'imgUrl': self.imgUrl
         }

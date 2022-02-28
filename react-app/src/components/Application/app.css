@@ -7,8 +7,9 @@
 .server-browser {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  width: 72px;
+  min-width: 72px;
   padding-top: 8px;
 }
 .server-bubble {
@@ -67,6 +68,22 @@
   height: 40px;
   transform: none;
 }
+.linkedin-bubble {
+  background-color: var(--background-secondary);
+  color: #0e76a8;
+}
+.linkedin-bubble:hover {
+  background-color: #0e76a8;
+  color: white;
+}
+.github-bubble {
+  background-color: var(--background-secondary);
+  color: #6cc644;
+}
+.github-bubble:hover {
+  background-color: #6cc644;
+  color: white;
+}
 .add-server-bubble {
   color: #3ba55d;
 }
@@ -113,7 +130,7 @@
   justify-content: space-between;
   /* margin-left: 10px; */
   background-color: var(--background-secondary);
-  width: 240px;
+  min-width: 240px;
   /* border-radius: 8px 0 0 0; */
   /* justify-content: space-between; */
 }
@@ -144,9 +161,8 @@
 .chat-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  /* width: 70%; */
-  flex-grow: 1;
+  width: 100%;
+  justify-content: flex-end;
   background-color: var(--background-primary);
 }
 .center-text {
@@ -217,12 +233,36 @@
   color: var(--header-primary);
 }
 .user-message {
+  word-wrap: break-word;
+  width: 100%;
   padding-left: 0.5rem;
+  padding-right: 1rem;
+}
+.edit-btn {
+  margin: 8px 0;
+  background-color: transparent;
+  color: var(--text-link);
+  font-size: 12px;
+}
+.edit-btn:hover {
+  text-decoration: underline;
+}
+.all-messages-container {
+  overflow-y: auto;
+  flex-flow: column nowrap;
+  display: flex;
 }
 .message-container {
+  position: relative;
   display: flex;
+  width: 100%;
+  /* padding-bottom: 1rem; */
+  padding-top: 8px;
   padding-left: 1rem;
-  padding-bottom: 1rem;
+}
+
+.active-msg {
+  background-color: rgba(4, 4, 5, 0.07);
 }
 .white {
   color: var(--header-primary);
@@ -232,12 +272,13 @@
   box-shadow: var(--elevation-low);
   padding: 0 4px 0 16px;
   font-size: 16px;
-  height: 48px;
+  min-height: 48px;
   z-index: 1;
   display: flex;
   align-items: center;
   font-family: Ginto, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 600;
+  margin-bottom: auto !important;
 }
 .text-channels-header {
   /* width: 100%; */
@@ -283,4 +324,69 @@
   position: absolute;
   top: 12px;
   right: 12px;
+}
+.edit-textarea {
+  margin-top: 8px;
+  color: white;
+  background-color: rgb(64, 68, 75);
+  overflow-x: hidden;
+  /* overflow-y: scroll; */
+  resize: none;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  width: 100%;
+  max-height: 100%;
+  /* height: 44px; */
+  /* min-height: 44px; */
+  color: var(--text-normal);
+  padding: 11px 16px;
+  border-radius: 8px;
+}
+.message-tools {
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 48px;
+  position: absolute;
+  top: 0px;
+  left: 256px;
+  z-index: 1;
+  background-color: rgb(54, 57, 63);
+  box-shadow: rgba(4, 4, 5, 0.15) 0px 0px 0px 1px;
+  margin: 0 14px 0 32px;
+  overflow: hidden;
+}
+.message-tools div:last-of-type {
+  color: #ed4245;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.message-tools div:first-of-type:hover {
+  color: rgb(54, 57, 63);
+  background-color: white !important;
+}
+.message-tools div:last-of-type:hover {
+  color: white;
+  background-color: #ed4245 !important;
+}
+.message-tools div {
+  margin: auto;
+  text-align: center;
+  vertical-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.message-tools div svg {
+  height: 24px;
+  width: 24px;
 }
