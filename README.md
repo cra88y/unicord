@@ -1,6 +1,6 @@
 # Unicord
 
-[Unicord](https://unicord.herokuapp.com/ "Live site hosted on Heroku") is website built to clone the functionality of [Discord](https://discord.com/ "Discord"). It is a one page chat app where you can create an account, add friends, be part of private conversations with friends, as well as join open chat servers created by users.
+[Unicord](https://unicord.herokuapp.com/ "Live site hosted on Heroku") is website built to clone the functionality of [Discord](https://discord.com/ "Discord"). It is a one page chat app where you can create an account, then chat in servers created by the site's users.
 
 This project is hosted on Heroku and the live site with a demo is viewable at [UNiCORD](https://unicord.herokuapp.com/ "Live site hosted on Heroku").
 
@@ -14,6 +14,9 @@ This project is hosted on Heroku and the live site with a demo is viewable at [U
 - Alembic
 - Flask-SocketIO
 
+
+# Screenshots
+![image](https://user-images.githubusercontent.com/22042885/156048561-90f1869c-d4be-4911-b22c-fd246b033154.png)
 
 # Setup Instructions To Run
 
