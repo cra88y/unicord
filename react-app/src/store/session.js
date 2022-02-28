@@ -55,7 +55,6 @@ export const updateUserAvatar = (url) => async (dispatch) => {
     return [];
   } else if (response.status < 500) {
     const data = await response.json();
-    console.log(data.errors);
     if (data.errors) {
       return data.errors;
     }

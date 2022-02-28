@@ -36,7 +36,6 @@ export const setActiveChannel = (channel) => async (dispatch) => {
 
 let isFetching = false;
 export const loadUserServers = () => async (dispatch) => {
-  console.log(isFetching);
   if (!isFetching) {
     isFetching = true;
     const response = await fetch(`/api/servers/joined`);

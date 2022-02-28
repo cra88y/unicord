@@ -11,6 +11,7 @@ import FullOverlay from "./SettingsOverlays/ChannelSettingsOverlay";
 import ServerSettingsOverlay from "./SettingsOverlays/ServerSettingsOverlay";
 import UserBar from "./UserBar";
 
+
 function Server({ server }) {
   const [channels, setChannels] = useState([]);
   const activeServer = useSelector((state) => state.servers.activeServer);
@@ -105,10 +106,19 @@ function Server({ server }) {
       {activeChannel ? (
         <Chat chat={activeChannel} />
       ) : (
-        <div className="chat-container">No active chat</div>
+        <div
+          className="chat-container"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // backgroundImage: { blanksPng },
+          }}
+        >
+          <div>Oh no! This server has no channels!</div>
+        </div>
       )}
     </>
   );
 }
-
 export default Server;

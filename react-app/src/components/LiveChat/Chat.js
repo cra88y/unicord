@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-
 import Message from "./Message";
 import "../Application/app.css";
 import { useSelector } from "react-redux";
@@ -19,10 +18,10 @@ function Chat({ chat }) {
     return () => (isMounted.current = false);
   }, []);
   useEffect(() => {
-    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    if (messages.length)
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
   }, [messages]);
   const fetchMessages = async () => {
-    console.log("fetching");
     const res = await fetch(`/api/${chat.chat_type}/${chat.chat_id}/messages`);
     if (res.ok && isMounted.current) {
       const data = await res.json();
