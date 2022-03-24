@@ -1,8 +1,8 @@
 # Unicord
 
-[Unicord](https://google.com/ "Live site hosted on Heroku") is website built to clone the functionality of [Discord](https://discord.com/, "Discord"). It is a one page chat app where you can create an account, add friends, be part of private conversations with friends, as well as join open chat servers created by users.
+[Unicord](https://unicord.herokuapp.com/ "Live site hosted on Heroku") is website built to clone the functionality of [Discord](https://discord.com/ "Discord"). It is a one page chat app where you can create an account, then chat in servers created by the site's users. It features live chat rooms with the ability to update and delete your messages in real time. Personalize your account and the servers you create with the option to upload images for both.
 
-This project is hosted on Heroku and the live site with a demo is viewable at [COMING SOON](https://google.com/ "Live site hosted on Heroku").
+This project is hosted on Heroku and the live site with a demo is viewable at [UNiCORD](https://unicord.herokuapp.com/ "Live site hosted on Heroku").
 
 # Technologies Used
 - Node.js
@@ -14,11 +14,16 @@ This project is hosted on Heroku and the live site with a demo is viewable at [C
 - Alembic
 - Flask-SocketIO
 
-# Screenshots
-TODO
+# Screenshots of Unicord
+![image](https://user-images.githubusercontent.com/22042885/156049091-21f19242-db69-43a6-9719-45f4679382c8.png)
+![image](https://user-images.githubusercontent.com/22042885/156048787-16189b98-e61b-49a6-9b97-5915d0edae4a.png)
+![image](https://user-images.githubusercontent.com/22042885/156049266-c2682d4a-8a1a-466e-a56f-c96ff9df5ddc.png)
+![image](https://user-images.githubusercontent.com/22042885/156048827-90436a55-3c88-44da-8828-0f1cb4c30a2b.png)
+![image](https://user-images.githubusercontent.com/22042885/156048561-90f1869c-d4be-4911-b22c-fd246b033154.png)
+![image](https://user-images.githubusercontent.com/22042885/156050992-d2b58894-65c5-4bc3-b12b-e475532eb0a4.png)
+![image](https://user-images.githubusercontent.com/22042885/156050966-9aab15e6-66e6-466c-a49a-1a45f10e2002.png)
 
 # Setup Instructions To Run
-
 1. Clone this repo
 2. In the root directory run the command `pipenv install`
 3. In the `/react-app` directory of the cloned repo, run `npm install` to install node dependencies
