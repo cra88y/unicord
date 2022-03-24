@@ -30,10 +30,10 @@ function ServerDropdown({ server, setDropdown, setSettingsOverlay }) {
           ) : (
             <li
               className="dd-item dd-item-red"
-              onMouseDown={handleMDown}
-              onClick={() => {
-                handleClick();
+              onMouseDown={(e) => {
+                e.preventDefault();
                 dispatch(leaveServerById(server.id));
+                handleClick();
               }}
             >
               Leave Server

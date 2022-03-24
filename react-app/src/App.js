@@ -57,6 +57,9 @@ function App() {
             <ProtectedRoute path="/app" exact={true}>
               <Application />
             </ProtectedRoute>
+            <Route>
+              <Redirect to="/" />
+            </Route>
           </Switch>
         </BrowserRouter>
       </div>

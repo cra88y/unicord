@@ -5,7 +5,6 @@ from flask import Blueprint, jsonify, request
 from flask_socketio import send, emit, join_room, leave_room
 from app.api.auth_routes import validation_errors_to_error_messages
 from app.forms.channel_form import ChannelForm
-from sqlalchemy import or_
 from app.forms.edit_message_form import EditMessageForm
 from app.forms.server_form import ServerForm
 from .. import socketio
@@ -13,19 +12,6 @@ from flask_login import current_user, login_required
 from app.models import db, User, Message, Channel, Server, Membership
 
 message_routes = Blueprint('messages', __name__)
-
-
-# @socketio.on('connect')
-# def connect_handler():
-#     print("SOCKET CONNECT", current_user.is_authenticated)
-#     if current_user.is_authenticated:
-#         print("VALID USER CONNECTED")
-#         emit('my response',
-#              {'message': '{0} has joined'.format(current_user.id)},
-#              broadcast=True)
-#     else:
-#         return False  # not allowed here
-
 
 @socketio.on("message")
 def on_message(data):

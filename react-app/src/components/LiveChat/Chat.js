@@ -13,14 +13,17 @@ function Chat({ chat }) {
   const activeServer = useSelector((state) => state.servers.activeServer);
   const isMounted = useRef(false);
   const messagesRef = useRef();
+
   useEffect(() => {
     isMounted.current = true;
     return () => (isMounted.current = false);
   }, []);
+
   useEffect(() => {
     if (messages.length)
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
   }, [messages]);
+
   const fetchMessages = async () => {
     const res = await fetch(`/api/${chat.chat_type}/${chat.chat_id}/messages`);
     if (res.ok && isMounted.current) {
@@ -31,12 +34,9 @@ function Chat({ chat }) {
       setMessages(msgs);
     }
   };
-  const reloadMessages = () => {
-    fetchMessages();
-  };
+
   useEffect(() => {
     if (!socket || !activeServer) return;
-    // setMessages([]);
     socket.emit("join", { chat_type: chat.chat_type, chat_id: chat.chat_id });
     fetchMessages();
     return () => {
@@ -97,7 +97,7 @@ function Chat({ chat }) {
           messages.map((msg) => (
             <Message
               chat={chat}
-              reloadMessages={reloadMessages}
+              reloadMessages={fetchMessages}
               message={msg}
               key={msg.id}
             />
