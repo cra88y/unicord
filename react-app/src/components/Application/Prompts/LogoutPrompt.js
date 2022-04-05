@@ -2,7 +2,6 @@ import React from "react";
 import "./prompt.css";
 import "../SettingsOverlays/overlay.css";
 import { useDispatch } from "react-redux";
-import { deleteChannelById } from "../../../store/servers";
 import { logout } from "../../../store/session";
 function LogoutPrompt({ setOverlay }) {
   const dispatch = useDispatch();

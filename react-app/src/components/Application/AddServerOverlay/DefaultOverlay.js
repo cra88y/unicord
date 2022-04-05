@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   joinServerById,
   loadJoinableServers,
-  setActiveServer,
 } from "../../../store/servers";
 import { xDDSvg } from "../../utils";
 function DefaultOverlay({ setOverlayType, setOverlay }) {
