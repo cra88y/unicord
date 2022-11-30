@@ -1,15 +1,16 @@
-from .db import db
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import DateTime
 from sqlalchemy.sql import func
 
 
 class Friendship(db.Model):
     __tablename__ = 'friendships'
-
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
     id = db.Column(db.Integer, primary_key=True)
-    user1_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user1_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     # user1 = db.relationship("User", back_populates="friends")
-    user2_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user2_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     # user2 = db.relationship("User", foreign_keys=[
     #     user2_id])
     status = db.Column(db.String(64), nullable=False)

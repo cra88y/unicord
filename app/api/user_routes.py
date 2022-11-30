@@ -46,7 +46,6 @@ def update_avatar():
     form = ChangeUserAvatarForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        print("@@@@@@@@@@@", form.data)
         current_user.imgUrl = form.data['url']
         db.session.commit()
         return current_user.to_dict()

@@ -49,7 +49,6 @@ function UserSettingsOverlay({ setOverlay }) {
         );
         // setProgress(prog);
       },
-      (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           dispatch(updateUserAvatar(url));

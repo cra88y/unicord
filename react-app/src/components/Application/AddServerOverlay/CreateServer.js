@@ -34,7 +34,6 @@ function CreateServer({ setOverlay, setOverlayType }) {
         );
         setProgress(prog);
       },
-      (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           dispatch(createServer(name, url)).then((res) => {
