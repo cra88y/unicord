@@ -11,7 +11,7 @@ from .seeds import seed_commands
 from .models import db, User
 from .config import Config
 eventlet.monkey_patch()
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
