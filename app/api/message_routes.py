@@ -168,7 +168,6 @@ def delete_channel_message(id):
 @login_required
 def delete_channel(id):
     channel = Channel.query.get(id)
-    # print("@@@@@@@@@@@@@@@@@@@@", channel.server.owner_id)
     if channel.server.owner_id == current_user.id:
         db.session.delete(channel)
         db.session.commit()
