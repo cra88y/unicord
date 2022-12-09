@@ -28,5 +28,5 @@ RUN pip install -r requirements.txt
 RUN pip install psycopg2
 
 # Run flask environment
-CMD gunicorn --worker-class eventlet -w 1 --timeout=250 app:app
+CMD gunicorn --worker-class eventlet -w 1 --timeout=250 --bind 0.0.0.0:8000 app:app 
 # CMD gunicorn --worker-class eventlet -w 1 --timeout=250 --log-level=debug app:app
