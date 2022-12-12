@@ -29,7 +29,7 @@ RUN pip install -r requirements.txt
 RUN pip install psycopg2
 
 # Migrations
-RUN flask db upgrade
+RUN python3 -m flask db upgrade
 
 # Run flask environment
 CMD gunicorn --worker-class eventlet -b :8000 -w 4 --timeout=250 app:app
