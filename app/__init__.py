@@ -21,8 +21,8 @@ app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
 db.init_app(app)
-db.create_all()
-migrate = Migrate(app, db)
+
+Migrate(app, db)
 
 # session = Session(app)
 # Application Security
