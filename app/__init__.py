@@ -19,10 +19,8 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 db.init_app(app)
 
-migrate = Migrate(app, db)
-if os.environ.get('FLASK_ENV') == 'production':
-    upgrade(directory="migrations")
 
+migrate = Migrate(app, db)
 
 # session = Session(app)
 # Application Security
@@ -75,8 +73,9 @@ def react_root(path):
 
 
 if __name__ == '__main__':
+    if os.environ.get('FLASK_ENV') == 'production':
+        with app.app_context():
+            upgrade(directory="migrations")
     app.run()
     socketio.run(app)
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
+    
