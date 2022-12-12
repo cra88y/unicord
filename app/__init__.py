@@ -2,7 +2,7 @@ import logging
 import os
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 import eventlet
@@ -19,7 +19,10 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 db.init_app(app)
 
-Migrate(app, db)
+migrate = Migrate(app, db)
+if os.environ.get('FLASK_ENV') == 'production':
+    upgrade(directory="migrations")
+
 
 # session = Session(app)
 # Application Security
