@@ -11,7 +11,7 @@ from .seeds import seed_commands
 from .models import db, User
 from .config import Config
 eventlet.monkey_patch()
-app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
+app = Flask(__name__, static_folder='static', static_url_path='/')
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
@@ -31,11 +31,9 @@ login.login_view = 'auth.unauthorized'
 # SocketIO
 socketio = SocketIO(app, cors_allowed_origins="*", manage_session=True)
 
-
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
 
 from .api.message_routes import message_routes
 from .api.auth_routes import auth_routes
@@ -43,14 +41,6 @@ from .api.user_routes import user_routes
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(message_routes, url_prefix='/api/')
-
-
-# Since we are deploying with Docker and Flask,
-# we won't be using a buildpack when we deploy to Heroku.
-# Therefore, we need to make sure that in production any
-# request made over http is redirected to https.
-# Well.........
-
 
 @app.before_request
 def https_redirect():
