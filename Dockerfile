@@ -28,6 +28,9 @@ COPY --from=build-stage /react-app/build app/static/
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
 
+# Migrations
+RUN flask db upgrade
+
 # Run flask environment
-CMD gunicorn --worker-class eventlet -b :8000 -w 4 --timeout=250 app:app 
+CMD gunicorn --worker-class eventlet -b :8000 -w 4 --timeout=250 app:app
 # CMD gunicorn --worker-class eventlet -w 1 --timeout=250 --log-level=debug app:app
