@@ -2,7 +2,7 @@ import logging
 import os
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
-from flask_migrate import Migrate, upgrade
+from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 import eventlet
@@ -13,7 +13,7 @@ from .config import Config
 eventlet.monkey_patch()
 app = Flask(__name__, static_folder='static', static_url_path='/')
 
-# Tell flask about our seed commands
+# seed commands
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
@@ -73,9 +73,9 @@ def react_root(path):
 
 
 if __name__ == '__main__':
-    if os.environ.get('FLASK_ENV') == 'production':
-        with app.app_context():
-            upgrade(directory="migrations")
+    with app.app_context():
+        from flask_migrate import upgrade
+        upgrade()
     app.run()
     socketio.run(app)
     
