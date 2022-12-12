@@ -10,6 +10,8 @@ from flask_socketio import SocketIO, send
 from .seeds import seed_commands
 from .models import db, User
 from .config import Config
+from dotenv import load_dotenv
+load_dotenv()
 eventlet.monkey_patch()
 app = Flask(__name__, static_folder='static', static_url_path='/')
 app.app_context().push()
