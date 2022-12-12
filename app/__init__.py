@@ -12,14 +12,14 @@ from .models import db, User
 from .config import Config
 eventlet.monkey_patch()
 app = Flask(__name__, static_folder='static', static_url_path='/')
+app.app_context().push()
 
 # seed commands
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
 db.init_app(app)
-
-
+db.create_all()
 migrate = Migrate(app, db)
 
 # session = Session(app)
@@ -73,9 +73,8 @@ def react_root(path):
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        from flask_migrate import upgrade
-        upgrade()
+    from flask_migrate import upgrade
+    upgrade()
     app.run()
     socketio.run(app)
     
