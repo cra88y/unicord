@@ -21,11 +21,11 @@ app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
 
-migrate = Migrate(app, db)
+migrate = Migrate()
 
 # session = Session(app)
 # Application Security
-CORS(app)
+cors = CORS(app)
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -76,6 +76,7 @@ def react_root(path):
 if __name__ == '__main__':
     db.init_app(app)
     migrate.init_app(app, db)
+    cors.init_app(app)
     from flask_migrate import upgrade
     upgrade()
     app.run()
