@@ -6,7 +6,7 @@ const firebaseConfig = {
   projectId: "unicord-ddaf0",
   storageBucket: "unicord-ddaf0.appspot.com",
   messagingSenderId: "840601807499",
-  appId: "1:840601807499:web:b9c317645f9328a531028e",
+  appId: "1:840601807499:web:b9c317645f9328a531028e"
 };
 
 export const app = initializeApp(firebaseConfig);
