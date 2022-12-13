@@ -2,12 +2,11 @@ import logging
 import os
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 import eventlet
 from flask_socketio import SocketIO, send
-from .seeds import seed_commands
 from .models import db, User
 from .config import Config
 from dotenv import load_dotenv
@@ -16,16 +15,16 @@ eventlet.monkey_patch()
 app = Flask(__name__, static_folder='static', static_url_path='/')
 app.app_context().push()
 
-# seed commands
-app.cli.add_command(seed_commands)
-
 app.config.from_object(Config)
 
 migrate = Migrate()
-
-# session = Session(app)
-# Application Security
 cors = CORS(app)
+
+db.init_app(app)
+migrate.init_app(app, db)
+cors.init_app(app)
+upgrade()
+
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -74,11 +73,6 @@ def react_root(path):
 
 
 if __name__ == '__main__':
-    db.init_app(app)
-    migrate.init_app(app, db)
-    cors.init_app(app)
-    from flask_migrate import upgrade
-    upgrade()
     app.run()
     socketio.run(app)
     
