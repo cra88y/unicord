@@ -52,6 +52,7 @@ function ServerSettingsOverlay({ server, setOverlay }) {
         );
         // setProgress(prog);
       },
+      (err) => undefined,
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           dispatch(editServer(server.id, url, serverName));

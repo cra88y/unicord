@@ -29,13 +29,13 @@ function UserSettingsOverlay({ setOverlay }) {
   useEffect(() => {
     if (!user) setOverlay(false);
   }, [user]);
+
   const onClickLogout = (e) => {
     e.preventDefault();
     setLogoutPrompt(true);
   };
   const uploadImg = (imageFile) => {
     if (!imageFile) return;
-
     const storageRef = ref(
       storage,
       `/images/${user.id}/${user.username}-${Date.now()}`
@@ -49,7 +49,9 @@ function UserSettingsOverlay({ setOverlay }) {
         );
         // setProgress(prog);
       },
+      (err) => undefined,
       () => {
+        console.log("1111")
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           dispatch(updateUserAvatar(url));
         });
@@ -94,6 +96,7 @@ function UserSettingsOverlay({ setOverlay }) {
     setUpdateAvatar(true);
     setPreview(null);
   };
+  
   return (
     <div className="full-overlay-container">
       {usernamePrompt ? (

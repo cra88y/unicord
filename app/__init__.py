@@ -1,8 +1,10 @@
 import logging
 import os
+from time import strftime
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate, upgrade
+from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 import eventlet
@@ -12,25 +14,34 @@ from .config import Config
 from dotenv import load_dotenv
 load_dotenv()
 eventlet.monkey_patch()
+
 app = Flask(__name__, static_folder='static', static_url_path='/')
 app.app_context().push()
 
 app.config.from_object(Config)
 
 migrate = Migrate()
-cors = CORS(app)
-
+cors = CORS()
+login = LoginManager()
+socketio = SocketIO()
 db.init_app(app)
 migrate.init_app(app, db)
+
+try:
+    upgrade()
+except Exception:
+    import traceback
+    print(traceback.format_exc())
+    raise
+
 cors.init_app(app)
-upgrade()
 
 # Setup login manager
-login = LoginManager(app)
+login.init_app(app)
 login.login_view = 'auth.unauthorized'
 
 # SocketIO
-socketio = SocketIO(app, cors_allowed_origins="*", manage_session=True)
+socketio.init_app(app, cors_allowed_origins="*", manage_session=True)
 
 @login.user_loader
 def load_user(id):
@@ -63,6 +74,12 @@ def inject_csrf_token(response):
         httponly=True)
     return response
 
+@app.after_request
+def after_request(response):
+    timestamp = strftime('[%Y-%b-%d %H:%M]')
+    app.logger.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+    return response
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -73,6 +90,10 @@ def react_root(path):
 
 
 if __name__ == '__main__':
-    app.run()
+    if os.environ.get('FLASK_ENV') == 'development':
+        gunicorn_logger = logging.getLogger('gunicorn.error')
+        app.logger.handlers = gunicorn_logger.handlers
+        app.logger.setLevel("DEBUG")
+        logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
+    app.run(host='0.0.0.0', port=8000, debug=True)
     socketio.run(app)
-    
