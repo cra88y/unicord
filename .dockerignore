@@ -1,4 +1,6 @@
 react-app/node_modules
+react-app/build
+app/static
 .venv
 .env
 .flaskenv
